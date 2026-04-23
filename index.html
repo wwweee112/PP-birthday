@@ -106,13 +106,32 @@
         .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
         @keyframes shake { 10%, 90% { transform: translate3d(-1px,0,0); } 20%, 80% { transform: translate3d(2px,0,0); } 30%, 50%, 70% { transform: translate3d(-4px,0,0); } }
 
-        /* ================= 主页面 ================= */
+        /* ================= 主页面与108.jpg背景 ================= */
         #main-content {
             display: none; opacity: 0; transition: opacity 1s ease-in;
-            background: linear-gradient(135deg, #f7fff7 0%, #e2f3e4 100%); min-height: 100vh; padding-bottom: 50px;
+            min-height: 100vh; padding-bottom: 50px; position: relative;
         }
 
-        .header { text-align: center; padding: 50px 20px; }
+        /* 主页面背景：108.jpg 固定在底层 */
+        #main-content::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: url('108.jpg') no-repeat center center;
+            background-size: cover;
+            z-index: -2;
+        }
+        
+        /* 背景柔光遮罩：防止背景太抢眼，让文字和照片墙依然清晰 */
+        #main-content::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(247, 255, 247, 0.6); /* 浅绿偏白半透明层 */
+            z-index: -1;
+        }
+
+        .header { text-align: center; padding: 50px 20px; position: relative; z-index: 10; }
         .header h1 { font-size: 3rem; color: var(--primary-color); margin-bottom: 10px; }
         .header h1::before { content: '🐱'; margin-right: 15px; }
         .header h1::after { content: '🐶'; margin-left: 15px; }
@@ -121,13 +140,14 @@
             max-width: 600px; margin: 0 auto 40px; background: rgba(255,255,255,0.9);
             padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             line-height: 1.8; text-align: center; position: relative; border-left: 5px solid var(--primary-color);
+            z-index: 10;
         }
         .wishes::after { content: '🐾'; position: absolute; bottom: 10px; right: 10px; font-size: 2rem; opacity: 0.2;}
 
         /* 瀑布流照片墙 */
         .photo-gallery {
             max-width: 1300px; margin: 40px auto; padding: 20px;
-            column-count: 4; column-gap: 20px;
+            column-count: 4; column-gap: 20px; position: relative; z-index: 10;
         }
         @media (max-width: 1024px) { .photo-gallery { column-count: 3; } }
         @media (max-width: 768px) { .photo-gallery { column-count: 2; } }
@@ -135,18 +155,18 @@
 
         .photo-card {
             background: white; padding: 12px; border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.05); break-inside: avoid; margin-bottom: 20px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1); break-inside: avoid; margin-bottom: 20px;
             display: inline-block; width: 100%; box-sizing: border-box; transition: 0.3s;
         }
-        .photo-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.1); }
+        .photo-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.15); }
         .photo-card img { width: 100%; border-radius: 8px; margin-bottom: 10px; display: block; }
         .photo-card p { margin: 8px 0; color: var(--text-color); font-weight: bold; font-size: 0.9rem; }
 
         /* ================= 互动选择区域 ================= */
         #mystery-section {
-            max-width: 800px; margin: 80px auto; background: white; padding: 50px; border-radius: 30px;
+            max-width: 800px; margin: 80px auto; background: rgba(255,255,255,0.95); padding: 50px; border-radius: 30px;
             text-align: center; border: 3px dashed var(--primary-color); position: relative;
-            min-height: 300px;
+            min-height: 300px; z-index: 10; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         #mystery-section h2 { color: var(--primary-color); margin-bottom: 30px; }
         
@@ -226,6 +246,15 @@
                     <p>我知道你喜欢小动物，喜欢清新自然的绿色。所以我把这里布置成了你最喜欢的样子。无论世界如何变，我都会陪在你身边，一起去解锁更多未知的地图。</p>
                     <p><strong>23岁生日快乐，100天快乐，我的PP宝宝！🐶🐱</strong></p>
                     <p style="text-align: right;">永远守护你的 PL<br>2026年4月28日</p>
+                    
+                    <div style="margin-top: 40px; text-align: center; border-top: 1px dashed var(--primary-color); padding-top: 30px;">
+                        <p style="font-weight: bold; color: var(--primary-color); font-size: 1.1rem; margin-bottom: 15px;">🎬 最后的最后，还有一个小彩蛋 🎬</p>
+                        <video controls playsinline style="width: 100%; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); outline: none; background: #000;">
+                            <source src="surprise.mp4" type="video/mp4">
+                            您的浏览器不支持视频播放哦。
+                        </video>
+                    </div>
+
                 </div>
             </div>
         </div>
