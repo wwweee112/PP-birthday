@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PL的神秘礼物</title>
     <style>
         :root {
@@ -13,187 +13,151 @@
         }
 
         body, html {
-            margin: 0; padding: 0; font-family: 'Microsoft YaHei', sans-serif;
-            color: var(--text-color); overflow-x: hidden; width: 100%; height: 100%;
+            margin: 0; padding: 0; font-family: 'Microsoft YaHei', -apple-system, sans-serif;
+            color: var(--text-color); overflow-x: hidden; width: 100%; min-height: 100%;
+            -webkit-tap-highlight-color: transparent;
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='32' height='32' viewport='0 0 32 32' style='fill:black;font-size:24px;'><text y='50%'>🐾</text></svg>") 16 16, auto;
         }
 
-        /* ================= 全局鼠标动态特效 ================= */
-        .click-effect {
-            position: fixed; pointer-events: none; user-select: none; z-index: 99999;
-            font-size: 22px; transform: translate(-50%, -50%);
-            animation: floatUp 0.8s ease-out forwards;
-        }
-        @keyframes floatUp {
-            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
-            50% { transform: translate(-50%, -80px) scale(1.2); opacity: 0.8; }
-            100% { transform: translate(-50%, -120px) scale(1.5); opacity: 0; }
+        button, a, .photo-card, .envelope-wrapper, #spin-btn, #record-btn, .save-audio-btn {
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='32' height='32' viewport='0 0 32 32' style='fill:black;font-size:24px;'><text y='50%'>🐾</text></svg>") 16 16, pointer !important;
         }
 
-        .mouse-trail {
-            position: fixed; pointer-events: none; user-select: none; z-index: 99998;
-            width: 10px; height: 10px; border-radius: 50%;
-            transform: translate(-50%, -50%); animation: trailFade 0.6s linear forwards;
-        }
-        @keyframes trailFade {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-            100% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-        }
+        /* ================= 鼠标动态特效 ================= */
+        .click-effect { position: fixed; pointer-events: none; user-select: none; z-index: 99999; font-size: 24px; transform: translate(-50%, -50%); animation: floatUp 0.8s ease-out forwards; }
+        @keyframes floatUp { 0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; } 50% { transform: translate(-50%, -80px) scale(1.2); opacity: 0.8; } 100% { transform: translate(-50%, -120px) scale(1.5); opacity: 0; } }
+        .mouse-trail { position: fixed; pointer-events: none; user-select: none; z-index: 99998; width: 8px; height: 8px; border-radius: 50%; transform: translate(-50%, -50%); animation: trailFade 0.6s linear forwards; }
+        @keyframes trailFade { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(0); opacity: 0; } }
 
-        /* ================= 升级版：动态背景登录页面 ================= */
-        #login-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('2.jpg') no-repeat center center;
-            background-size: cover;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            z-index: 999; transition: opacity 1s ease-out; color: white;
-            overflow: hidden;
-        }
-        
-        .login-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.4); z-index: 1;
-        }
+        /* ================= 登录页面 ================= */
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('2.jpg') no-repeat center center; background-size: cover; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 1s ease-out; color: white; overflow: hidden; }
+        .login-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 1; }
+        .login-particle { position: absolute; bottom: -50px; z-index: 2; pointer-events: none; user-select: none; animation: particleFloat linear forwards; opacity: 0.8; }
+        @keyframes particleFloat { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 10% { opacity: 0.9; } 100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
 
-        .login-particle {
-            position: absolute; bottom: -50px; z-index: 2; pointer-events: none; user-select: none;
-            animation: particleFloat linear forwards; opacity: 0.8;
-        }
-        @keyframes particleFloat {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.9; }
-            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
-        }
-
-        .glass-box {
-            position: relative; z-index: 10;
-            background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 30px; padding: 50px 40px; text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); width: 80%; max-width: 400px;
-        }
-
-        .mysterious-title {
-            font-size: 2.2rem; margin-bottom: 20px; letter-spacing: 4px; color: #fff;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); animation: pulse-glow 3s infinite alternate;
-        }
-        @keyframes pulse-glow {
-            0% { transform: scale(1); text-shadow: 0 0 10px rgba(143, 203, 155, 0.5); }
-            100% { transform: scale(1.05); text-shadow: 0 0 25px rgba(143, 203, 155, 1); }
-        }
-
-        .login-photo-container {
-            width: 120px; height: 120px; border-radius: 50%; overflow: hidden;
-            margin: 0 auto 30px auto; border: 3px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 20px rgba(143, 203, 155, 0.6);
-        }
+        .glass-box { position: relative; z-index: 10; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; padding: 40px 20px; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); width: 85%; max-width: 400px; }
+        .mysterious-title { font-size: 1.8rem; margin-bottom: 20px; letter-spacing: 2px; color: #fff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); animation: pulse-glow 3s infinite alternate; }
+        @keyframes pulse-glow { 0% { transform: scale(1); text-shadow: 0 0 10px rgba(143, 203, 155, 0.5); } 100% { transform: scale(1.05); text-shadow: 0 0 25px rgba(143, 203, 155, 1); } }
+        .login-photo-container { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; margin: 0 auto 20px auto; border: 3px solid rgba(255, 255, 255, 0.8); box-shadow: 0 0 20px rgba(143, 203, 155, 0.6); }
         .login-photo-container img { width: 100%; height: 100%; object-fit: cover; }
-
-        .question-text { font-size: 1.2rem; margin-bottom: 20px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .password-input {
-            width: 150px; padding: 12px; font-size: 1.2rem; text-align: center;
-            border: 2px solid rgba(143, 203, 155, 0.6); border-radius: 12px;
-            background: rgba(255,255,255,0.85); outline: none; letter-spacing: 3px; font-weight: bold; color: var(--text-color);
-        }
-        .password-input:focus { border-color: var(--primary-color); box-shadow: 0 0 15px rgba(255,255,255,0.8); }
-        
-        .submit-btn {
-            margin-top: 20px; padding: 12px 35px; font-size: 1.1rem; background: var(--primary-color);
-            color: white; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; font-weight: bold;
-            box-shadow: 0 4px 15px rgba(143, 203, 155, 0.5);
-        }
-        .submit-btn:hover { background: #7fc18c; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(143, 203, 155, 0.8); }
-        
+        .question-text { font-size: 1.1rem; margin-bottom: 15px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .password-input { width: 140px; padding: 12px; font-size: 1.2rem; text-align: center; border: 2px solid rgba(143, 203, 155, 0.6); border-radius: 12px; background: rgba(255,255,255,0.85); outline: none; letter-spacing: 3px; font-weight: bold; color: var(--text-color); -webkit-appearance: none; }
+        .submit-btn { margin-top: 20px; padding: 12px 30px; font-size: 1.1rem; background: var(--primary-color); color: white; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; font-weight: bold; box-shadow: 0 4px 15px rgba(143, 203, 155, 0.5); width: 80%; max-width: 200px; -webkit-appearance: none; }
         .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
         @keyframes shake { 10%, 90% { transform: translate3d(-1px,0,0); } 20%, 80% { transform: translate3d(2px,0,0); } 30%, 50%, 70% { transform: translate3d(-4px,0,0); } }
 
-        /* ================= 主页面与108.jpg背景 ================= */
-        #main-content {
-            display: none; opacity: 0; transition: opacity 1s ease-in;
-            min-height: 100vh; padding-bottom: 50px; position: relative;
-        }
+        /* ================= 主页面与动态背景 ================= */
+        #main-content { display: none; opacity: 0; transition: opacity 1s ease-in; min-height: 100vh; padding-bottom: 50px; position: relative; }
+        #main-content::before { content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: url('108.jpg') no-repeat center center; background-size: cover; z-index: -2; }
+        #main-content::after { content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(247, 255, 247, 0.6); z-index: -1; }
 
-        /* 主页面背景：108.jpg 固定在底层 */
-        #main-content::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: url('108.jpg') no-repeat center center;
-            background-size: cover;
-            z-index: -2;
-        }
+        .header { text-align: center; padding: 40px 15px 20px; position: relative; z-index: 10; }
+        .header h1 { font-size: 2rem; color: var(--primary-color); margin-bottom: 10px; display: flex; align-items: center; justify-content: center;}
+        .header h1::before { content: '🐱'; margin-right: 10px; font-size: 1.5rem;}
+        .header h1::after { content: '🐶'; margin-left: 10px; font-size: 1.5rem;}
         
-        /* 背景柔光遮罩：防止背景太抢眼，让文字和照片墙依然清晰 */
-        #main-content::after {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(247, 255, 247, 0.6); /* 浅绿偏白半透明层 */
-            z-index: -1;
-        }
+        .timer-container { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+        .timer-box { background: rgba(255,255,255,0.8); border: 2px solid var(--primary-color); padding: 5px 10px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .timer-num { font-size: 1.2rem; font-weight: bold; color: var(--primary-color); }
+        .timer-text { font-size: 0.8rem; color: #666; }
 
-        .header { text-align: center; padding: 50px 20px; position: relative; z-index: 10; }
-        .header h1 { font-size: 3rem; color: var(--primary-color); margin-bottom: 10px; }
-        .header h1::before { content: '🐱'; margin-right: 15px; }
-        .header h1::after { content: '🐶'; margin-left: 15px; }
+        .wishes { width: 90%; max-width: 600px; margin: 20px auto 30px; background: rgba(255,255,255,0.95); padding: 20px 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); line-height: 1.8; text-align: justify; position: relative; border-left: 5px solid var(--primary-color); box-sizing: border-box; z-index: 10; min-height: 150px;}
+        .wishes p { margin-bottom: 10px; font-size: 1.05rem; }
+        .cursor { display: inline-block; width: 2px; height: 1.2em; background-color: var(--primary-color); vertical-align: middle; animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
 
-        .wishes {
-            max-width: 600px; margin: 0 auto 40px; background: rgba(255,255,255,0.9);
-            padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            line-height: 1.8; text-align: center; position: relative; border-left: 5px solid var(--primary-color);
-            z-index: 10;
-        }
-        .wishes::after { content: '🐾'; position: absolute; bottom: 10px; right: 10px; font-size: 2rem; opacity: 0.2;}
-
-        /* 瀑布流照片墙 */
-        .photo-gallery {
-            max-width: 1300px; margin: 40px auto; padding: 20px;
-            column-count: 4; column-gap: 20px; position: relative; z-index: 10;
-        }
+        /* 瀑布流 */
+        .photo-gallery { width: 95%; max-width: 1200px; margin: 20px auto; padding: 0; column-count: 4; column-gap: 15px; position: relative; z-index: 10;}
         @media (max-width: 1024px) { .photo-gallery { column-count: 3; } }
-        @media (max-width: 768px) { .photo-gallery { column-count: 2; } }
-        @media (max-width: 480px) { .photo-gallery { column-count: 1; } }
-
-        .photo-card {
-            background: white; padding: 12px; border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1); break-inside: avoid; margin-bottom: 20px;
-            display: inline-block; width: 100%; box-sizing: border-box; transition: 0.3s;
-        }
-        .photo-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.15); }
-        .photo-card img { width: 100%; border-radius: 8px; margin-bottom: 10px; display: block; }
-        .photo-card p { margin: 8px 0; color: var(--text-color); font-weight: bold; font-size: 0.9rem; }
-
-        /* ================= 互动选择区域 ================= */
-        #mystery-section {
-            max-width: 800px; margin: 80px auto; background: rgba(255,255,255,0.95); padding: 50px; border-radius: 30px;
-            text-align: center; border: 3px dashed var(--primary-color); position: relative;
-            min-height: 300px; z-index: 10; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        #mystery-section h2 { color: var(--primary-color); margin-bottom: 30px; }
+        @media (max-width: 768px) { .photo-gallery { column-count: 2; column-gap: 10px; } }
         
-        .choice-btn-group { display: flex; justify-content: center; gap: 30px; margin-top: 20px; position: relative; }
-        
-        .choice-btn {
-            padding: 12px 40px; font-size: 1.2rem; border-radius: 50px; cursor: pointer;
-            border: 2px solid var(--primary-color); z-index: 10;
-        }
+        .photo-card { background: white; padding: 8px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); break-inside: avoid; margin-bottom: 15px; display: inline-block; width: 100%; box-sizing: border-box; opacity: 0; transform: translateY(40px); transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s; position: relative; }
+        .photo-card.reveal { opacity: 1; transform: translateY(0); }
+        .photo-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 12px 25px rgba(0,0,0,0.15); z-index: 2; }
+        .photo-card img { width: 100%; border-radius: 6px; margin-bottom: 8px; display: block; }
+        .photo-card p { margin: 5px 0; color: var(--text-color); font-weight: bold; font-size: 0.8rem; text-align: center; }
+
+        /* 照片灯箱 */
+        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 99999; justify-content: center; align-items: center; flex-direction: column; opacity: 0; transition: opacity 0.3s; }
+        #lightbox img { max-width: 90%; max-height: 75vh; border-radius: 15px; box-shadow: 0 0 30px rgba(255,255,255,0.2); }
+        #lightbox p { color: white; font-size: 1.2rem; margin-top: 20px; font-weight: bold; text-align: center; padding: 0 20px;}
+        #lightbox .close-btn { position: absolute; top: 30px; right: 30px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; }
+
+        /* ================= 互动区 ================= */
+        #mystery-section { width: 90%; max-width: 800px; margin: 50px auto; background: rgba(255,255,255,0.95); padding: 30px 20px; border-radius: 20px; text-align: center; border: 2px dashed var(--primary-color); position: relative; min-height: 250px; box-sizing: border-box; z-index: 10; overflow: hidden;}
+        #mystery-section h2 { color: var(--primary-color); margin-bottom: 20px; font-size: 1.5rem;}
+        .choice-btn-group { display: flex; justify-content: center; gap: 20px; margin-top: 20px; position: relative; }
+        .choice-btn { padding: 10px 30px; font-size: 1.1rem; border-radius: 50px; cursor: pointer; border: 2px solid var(--primary-color); z-index: 10; -webkit-tap-highlight-color: transparent; }
         .btn-yes { background: var(--primary-color); color: white; transition: 0.3s; }
-        .btn-yes:hover { transform: scale(1.1); box-shadow: 0 5px 15px rgba(143,203,155,0.4); }
         .btn-no { background: white; color: var(--primary-color); transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-        
-        #persist-msg { color: #ff6b6b; margin-top: 30px; font-weight: bold; min-height: 24px; transition: 0.3s; }
+        #persist-msg { color: #ff6b6b; margin-top: 20px; font-weight: bold; min-height: 24px; font-size: 0.9rem;}
 
-        /* 信件内容 */
-        #letter-box { display: none; text-align: left; opacity: 0; transition: 1.5s; padding-top: 30px; border-top: 1px solid #eee; margin-top: 30px; }
-        .letter-content { line-height: 2; font-size: 1.1rem; color: #555; }
+        #envelope-scene { display: none; margin: 40px auto; perspective: 1000px; width: 280px; height: 200px; position: relative; }
+        .envelope-wrapper { width: 100%; height: 100%; background: var(--primary-color); position: relative; margin: 0 auto; box-shadow: 0 15px 30px rgba(0,0,0,0.15); transition: 0.5s; border-radius: 5px; }
+        .envelope-wrapper:hover { transform: scale(1.05); }
+        .env-flap { position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-top: 110px solid #7fc18c; transform-origin: top; transition: transform 0.8s ease-in-out; z-index: 3; }
+        .env-body { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-left: 140px solid #9ad6a5; border-right: 140px solid #9ad6a5; border-bottom: 100px solid #8fcb9b; z-index: 2; }
+        .env-paper { position: absolute; bottom: 10px; left: 15px; right: 15px; height: 170px; background: white; z-index: 1; transition: transform 1s ease-in-out 0.8s; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; border-radius: 5px;}
+        .env-paper span { color: var(--primary-color); font-weight: bold; font-size: 2rem;}
+        .envelope-wrapper.open .env-flap { transform: rotateX(180deg); z-index: 0; }
+        .envelope-wrapper.open .env-paper { transform: translateY(-130px); }
+        .envelope-hint { margin-top: 20px; font-weight: bold; color: var(--primary-color); animation: pulse-glow 2s infinite alternate;}
+
+        #letter-box { display: none; text-align: left; padding-top: 20px; margin-top: 20px; opacity: 0; transition: 1s;}
+        .letter-content { line-height: 1.8; font-size: 1rem; color: #555; text-align: justify; }
         .letter-content strong { color: var(--primary-color); }
+        .fade-in-para { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .fade-in-para.visible { opacity: 1; transform: translateY(0); }
 
-        #music-btn {
-            position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px;
-            border-radius: 50%; background: var(--primary-color); color: white; border: none;
-            cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 100; font-size: 24px;
+        /* ================= 升级版：真实录音 & 8项情绪价值转盘 ================= */
+        .record-section { margin: 30px auto; padding: 25px 15px; background: #fff; border-radius: 20px; border: 2px dashed #ccc; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .record-section.active { border-color: var(--primary-color); background: #f0fdf4; }
+        
+        #record-btn {
+            background: #ff6b6b; color: white; border: none; padding: 15px 30px; font-size: 1.1rem; 
+            border-radius: 50px; font-weight: bold; display: inline-flex; align-items: center; gap: 10px;
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4); transition: 0.2s; user-select: none; -webkit-user-select: none; margin: 10px 0;
         }
-        .rotating { animation: rotate 3s linear infinite; }
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        #record-btn.recording { transform: scale(0.95); background: #ff4757; animation: heartbeat 1.5s infinite; }
+        @keyframes heartbeat { 0% { transform: scale(0.95); box-shadow: 0 0 10px #ff4757;} 50% { transform: scale(1.05); box-shadow: 0 0 30px #ff4757;} 100% { transform: scale(0.95); box-shadow: 0 0 10px #ff4757;} }
+        
+        .record-timer { font-size: 1.5rem; font-weight: bold; color: #ff4757; margin-top: 10px; display: none; }
+        
+        /* 录音播放列表区 */
+        #audio-list { margin-top: 15px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+        .audio-item { background: #f8f9fa; padding: 10px; border-radius: 15px; width: 100%; box-sizing: border-box; border: 1px solid #eee; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        audio { width: 100%; height: 40px; outline: none; }
+        .save-audio-btn { background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; font-weight: bold; border: none; }
+
+        /* 8等分完美转盘 */
+        .wheel-container { position: relative; width: 280px; height: 280px; margin: 30px auto 20px; }
+        .wheel-pointer { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 45px; color: #ff4757; z-index: 10; text-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+        .wheel-center-dot { position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; background: white; border: 4px solid var(--primary-color); border-radius: 50%; transform: translate(-50%, -50%); z-index: 5; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .wheel { 
+            width: 100%; height: 100%; border-radius: 50%; border: 6px solid white; 
+            box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+            background: conic-gradient( 
+                #b5e4c3 0 45deg, #f7fff7 45deg 90deg, #ffdac1 90deg 135deg, #e2f3e4 135deg 180deg, 
+                #ffb7b2 180deg 225deg, #9ad6a5 225deg 270deg, #ff9a9e 270deg 315deg, #ffffff 315deg 360deg 
+            ); 
+            transition: transform 5s cubic-bezier(0.25, 0.1, 0.15, 1); position: relative; overflow: hidden;
+        }
+        .wheel-text { 
+            position: absolute; width: 80px; height: 60px; top: 50%; left: 50%; 
+            margin-top: -30px; margin-left: -40px; text-align: center; display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: bold; color: var(--text-color); line-height: 1.3; 
+            transform-origin: center center;
+        }
+        
+        #spin-btn { background: #ccc; pointer-events: none; transition: 0.3s; padding: 15px 40px; font-size: 1.2rem; }
+        #spin-btn.ready { background: var(--primary-color); pointer-events: auto; box-shadow: 0 5px 15px rgba(143,203,155,0.5); animation: pulse-glow 1.5s infinite alternate; }
+
+        /* 黑胶唱片按钮 */
+        #music-btn { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: #222; color: var(--primary-color); border: 2px solid white; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 100; font-size: 18px; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        #music-btn::before { content: ""; position: absolute; width: 15px; height: 15px; background: var(--primary-color); border-radius: 50%; }
+        #music-btn::after { content: "♪"; position: relative; z-index: 2; color: white; font-size: 14px;}
+        .rotating { animation: rotateRecord 4s linear infinite; }
+        @keyframes rotateRecord { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -201,35 +165,49 @@
     <div id="login-screen">
         <div class="login-overlay"></div>
         <div id="particles-container"></div>
-        
         <div class="glass-box" id="glass-box">
             <div class="mysterious-title">PL的神秘礼物</div>
-            <div class="login-photo-container"><img src="1.jpg" alt="最美夕阳"></div>
+            <div class="login-photo-container"><img src="1.jpg" alt="封面"></div>
             <div class="question-text">为了确认身份，请回答：你的生日是？</div>
-            <input type="password" id="password-input" class="password-input" placeholder="0000" maxlength="4">
+            <input type="password" id="password-input" class="password-input" placeholder="输入数字" maxlength="4" pattern="[0-9]*" inputmode="numeric">
             <br>
-            <button class="submit-btn" id="submit-btn">点击开启惊喜</button>
-            <div id="error-msg" style="color: #ff4757; margin-top: 15px; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.5);"></div>
+            <button class="submit-btn" id="submit-btn">开启惊喜</button>
+            <div id="error-msg" style="color: #ff4757; margin-top: 15px; font-weight: bold; font-size: 0.9rem;"></div>
         </div>
+    </div>
+
+    <div id="lightbox">
+        <span class="close-btn" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" src="">
+        <p id="lightbox-text"></p>
     </div>
 
     <div id="main-content">
         <div class="header">
-            <h1>Happy Birthday PP宝宝!</h1>
-            <p>🍀 2026.04.28 · 我们的23岁 🍀</p>
+            <h1>Happy Birthday PP!</h1>
+            <p>✨ 2026.04.28 · 我们的23岁 ✨</p>
+            <div class="timer-container">
+                <div class="timer-box"><span class="timer-num" id="t-days">00</span><span class="timer-text"> 天</span></div>
+                <div class="timer-box"><span class="timer-num" id="t-hours">00</span><span class="timer-text"> 时</span></div>
+                <div class="timer-box"><span class="timer-num" id="t-mins">00</span><span class="timer-text"> 分</span></div>
+                <div class="timer-box"><span class="timer-num" id="t-secs">00</span><span class="timer-text"> 秒</span></div>
+            </div>
         </div>
 
         <div class="wishes">
-            <p>亲爱的PP：</p>
-            <p>这是为你准备的第23个春天的礼物，也是一份特别的纪念。在这里，我收集了100个我们闪闪发光的瞬间。每一个画面都藏着一段故事，每一段文字都是我想对你说的真心话。希望我的宝宝永远开心快乐，永远是那个最爱笑的小仙女。</p>
+            <p style="color: var(--primary-color); font-weight: bold;">亲爱的PP：</p>
+            <p><span id="typewriter-text"></span><span class="cursor"></span></p>
         </div>
 
+        <h2 style="text-align: center; color: var(--primary-color); margin: 30px 0 10px; font-size: 1.2rem; position: relative; z-index: 10;">♥ 我们的107个闪光瞬间 ♥</h2>
+        
         <div class="photo-gallery" id="photo-wall"></div>
 
         <div id="mystery-section">
-            <h2>✨ 最后一个惊喜 ✨</h2>
+            <h2 id="final-title">✨ 最后一个惊喜 ✨</h2>
+            
             <div id="interaction-box">
-                <p style="font-size: 1.2rem;">读完了这100个瞬间，你是不是还想和PL一起书写接下来的故事呢？</p>
+                <p style="font-size: 1.1rem; margin-bottom: 15px;">读完了这100个瞬间，你是不是还想和PL一起书写接下来的故事呢？</p>
                 <div class="choice-btn-group">
                     <button class="choice-btn btn-no" onclick="handleNo()">否</button>
                     <button class="choice-btn btn-yes" onclick="handleYes()">是</button>
@@ -237,200 +215,425 @@
                 <div id="persist-msg"></div>
             </div>
 
+            <div id="envelope-scene">
+                <div class="envelope-wrapper" onclick="openEnvelope()">
+                    <div class="env-flap"></div>
+                    <div class="env-body"></div>
+                    <div class="env-paper"><span>💌</span></div>
+                </div>
+                <div class="envelope-hint">👆 点击拆开信件 👆</div>
+            </div>
+
             <div id="letter-box">
                 <div class="letter-content">
-                    <p>亲爱的PP：</p>
-                    <p>谢谢你坚定地选择了“是”。</p>
-                    <p>这100张照片，记录了我们在千佛洞前的惊叹，在海边等过的落日，在天坛吹过的寒风，还有你穿上绿衣汉服时那惊艳的样子。每一次按下快门，其实都是我在心里说了一次：<strong>“遇见你真好”。</strong></p>
-                    <p>你知道吗？从我们的第一面起，我觉得我们的故事就不会断，和你在一起的每时每刻我都很开心，也希望你也能每天开心快乐。今天不仅是你23岁的生日，更是我们在一起的<strong>第100天纪念日</strong>。100天，很多个闪光的瞬间，原来不知不觉中，我们已经留下了这么多美好的回忆。这100天只是一个美好的开始，未来的日子，我们还有更多的 100 天，更多的开心快乐。</p>
-                    <p>我知道你喜欢小动物，喜欢清新自然的绿色。所以我把这里布置成了你最喜欢的样子。无论世界如何变，我都会陪在你身边，一起去解锁更多未知的地图。</p>
-                    <p><strong>23岁生日快乐，100天快乐，我的PP宝宝！🐶🐱</strong></p>
-                    <p style="text-align: right;">永远守护你的 PL<br>2026年4月28日</p>
+                    <p class="fade-in-para">亲爱的PP：</p>
+                    <p class="fade-in-para">谢谢你坚定地选择了“是”。</p>
+                    <p class="fade-in-para">这107张照片，记录了我们在千佛洞前的惊叹，在海边等过的落日，在天坛吹过的寒风，还有你穿上绿衣汉服时那惊艳的样子。我忘不了你的每一次微笑，像春风一样拂过我的脸庞，让久久不能忘却，每一次按下快门，其实都是我在心里说了一次：<strong>“遇见你真好”。</strong></p>
+                    <p class="fade-in-para">你知道吗？从我们的第一面起，我觉得我们的故事就不会断。和你在一起的每时每刻我都很开心，也希望你也能每天开心快乐。</p>
+					 <p class="fade-in-para">我知道异地恋很困难，我们都克服不了见不了面的难受，每次赶去见你的路上觉得一切都是那么美好，我想见你，想要马上见到你，高铁很快但是追不上我对你的想念，飞机更快但还是不够，我只想每时每刻和你在一起。</p>
+                    <p class="fade-in-para">今天不仅是你23岁的生日，更是我们在一起的<strong>第100天纪念日</strong>。100天，很多个闪光的瞬间，原来不知不觉中，我们已经留下了这么多美好的回忆。这100天只是一个美好的开始，未来的日子，我们还有更多的 100 天，更多的开心快乐。</p>
+                    <p class="fade-in-para">我知道你喜欢小动物，喜欢清新自然的绿色。所以我把这里布置成了你最喜欢的样子。无论世界如何变，我都会陪在你身边，一起去解锁更多未知的地图。</p>
+                    <p class="fade-in-para"><strong>23岁生日快乐，100天快乐，我的PP宝宝！🐶🐱</strong></p>
+                    <p class="fade-in-para" style="text-align: right; margin-top: 20px;">永远守护你的 PL<br>2026年4月28日</p>
                     
-                    <div style="margin-top: 40px; text-align: center; border-top: 1px dashed var(--primary-color); padding-top: 30px;">
-                        <p style="font-weight: bold; color: var(--primary-color); font-size: 1.1rem; margin-bottom: 15px;">🎬 最后的最后，还有一个小彩蛋 🎬</p>
-                        <video controls playsinline style="width: 100%; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); outline: none; background: #000;">
-                            <source src="surprise.mp4" type="video/mp4">
-                            您的浏览器不支持视频播放哦。
-                        </video>
+                    <div class="fade-in-para" style="margin-top: 40px; text-align: center; border-top: 1px dashed var(--primary-color); padding-top: 30px;">
+                        <p style="font-weight: bold; color: var(--primary-color); font-size: 1.1rem; margin-bottom: 15px;">🎬 我们的故事，未完待续 🎬</p>
+                       <video controls playsinline webkit-playsinline preload="metadata" style="width: 100%; max-width: 320px; aspect-ratio: 9/16; height: auto; object-fit: contain; background: #000; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: block; margin: 0 auto; outline: none;">
+    <source src="1.mp4" type="video/mp4">
+    您的浏览器不支持视频播放哦。
+</video>
                     </div>
 
+                    <div class="fade-in-para" style="margin-top: 40px; text-align: center; border-top: 1px dashed var(--primary-color); padding-top: 30px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 10px; font-size: 1.4rem;">🎡 终极福利：专属偏爱大转盘 🎡</h3>
+                        
+                        <div class="record-section" id="record-section">
+                            <p style="font-size: 1.2rem; font-weight: bold; color: #ff6b6b; margin-bottom: 5px;" id="spin-counter">🎁 剩余抽奖：0 次 (共 3 次)</p>
+                            <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;" id="record-hint">点击下方按钮，大声说出你最想对PL说的话<br>(最长60秒，录完即可解锁1次机会！)</p>
+                            
+                            <button id="record-btn" onclick="toggleRecording()">🎙️ 点击开始录制心声</button>
+                            <div class="record-timer" id="record-timer">00:00</div>
+                            <div id="audio-list"></div> 
+                        </div>
+
+                        <div class="wheel-container">
+                            <div class="wheel-pointer">▼</div>
+                            <div class="wheel-center-dot"></div>
+                            <div class="wheel" id="lucky-wheel">
+                                <div class="wheel-text" style="transform: rotate(22.5deg) translateY(-100px);">转账<br>520</div>
+                                <div class="wheel-text" style="transform: rotate(67.5deg) translateY(-100px);">豪华<br>大餐</div>
+                                <div class="wheel-text" style="transform: rotate(112.5deg) translateY(-100px) rotate(180deg);">零食<br>大礼包</div>
+                                <div class="wheel-text" style="transform: rotate(157.5deg) translateY(-100px) rotate(180deg);">抱抱<br>亲亲</div>
+                                <div class="wheel-text" style="transform: rotate(202.5deg) translateY(-100px) rotate(180deg);">专属<br>哄睡</div>
+                                <div class="wheel-text" style="transform: rotate(247.5deg) translateY(-100px) rotate(180deg);">免生气<br>金牌</div>
+                                <div class="wheel-text" style="transform: rotate(292.5deg) translateY(-100px);">专属<br>陪伴</div>
+                                <div class="wheel-text" style="transform: rotate(337.5deg) translateY(-100px);">帮你<br>按摩</div>
+                            </div>
+                        </div>
+                        <button class="choice-btn" id="spin-btn" onclick="spinWheel()">等待录音解锁...</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <audio id="bg-music" loop><source src="Limbs of Faith-Beauvois.mp3" type="audio/mpeg"></audio>
-    <button id="music-btn" style="display: none;">♪</button>
+    <div id="music-btn" style="display: none;"></div>
 
     <script>
-        // ================= 1. 全局与登录页动态特效 =================
+        // ================= 全局动画 =================
         const clickEmojis = ['🐾', '🍀', '💚', '✨', '🐶', '🐱'];
-        window.addEventListener('click', function(e) {
-            const el = document.createElement('div');
-            el.className = 'click-effect';
-            el.style.left = e.clientX + 'px';
-            el.style.top = e.clientY + 'px';
-            el.innerText = clickEmojis[Math.floor(Math.random() * clickEmojis.length)];
-            document.body.appendChild(el);
-            setTimeout(() => { el.remove(); }, 800);
-        });
+        function triggerEffect(e) {
+            const el = document.createElement('div'); el.className = 'click-effect';
+            const x = e.clientX || (e.touches && e.touches[0].clientX); const y = e.clientY || (e.touches && e.touches[0].clientY);
+            if(x && y) { el.style.left = x + 'px'; el.style.top = y + 'px'; el.innerText = clickEmojis[Math.floor(Math.random() * clickEmojis.length)]; document.body.appendChild(el); setTimeout(() => el.remove(), 800); }
+        }
+        window.addEventListener('click', triggerEffect); window.addEventListener('touchend', triggerEffect, {passive: true});
 
-        let lastTrailTime = 0;
-        const trailColors = ['#8fcb9b', '#b5e4c3', '#f7fff7', '#a8d5b2'];
+        let lastTrailTime = 0; const trailColors = ['#8fcb9b', '#b5e4c3', '#f7fff7', '#a8d5b2'];
         window.addEventListener('mousemove', function(e) {
             const now = Date.now();
             if (now - lastTrailTime > 40) {
-                const el = document.createElement('div');
-                el.className = 'mouse-trail';
-                el.style.left = e.clientX + 'px';
-                el.style.top = e.clientY + 'px';
+                const el = document.createElement('div'); el.className = 'mouse-trail';
+                el.style.left = e.clientX + 'px'; el.style.top = e.clientY + 'px';
                 el.style.backgroundColor = trailColors[Math.floor(Math.random() * trailColors.length)];
-                el.style.boxShadow = `0 0 8px ${el.style.backgroundColor}`;
-                const size = Math.random() * 8 + 4; 
-                el.style.width = size + 'px';
-                el.style.height = size + 'px';
-                document.body.appendChild(el);
-                setTimeout(() => { el.remove(); }, 600);
-                lastTrailTime = now;
+                el.style.boxShadow = `0 0 8px ${el.style.backgroundColor}`; el.style.width = el.style.height = (Math.random() * 6 + 4) + 'px';
+                document.body.appendChild(el); setTimeout(() => el.remove(), 600); lastTrailTime = now;
             }
         });
 
-        const particlesContainer = document.getElementById('particles-container');
-        const particleEmojis = ['✨', '💖', '🍀', '🐾', '🐰'];
+        const pContainer = document.getElementById('particles-container'); const pEmojis = ['✨', '💖', '🍀', '🐾', '🐰'];
         let loginParticleInterval = setInterval(() => {
-            const el = document.createElement('div');
-            el.className = 'login-particle';
-            el.innerText = particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
-            el.style.left = Math.random() * 100 + 'vw';
-            el.style.fontSize = (Math.random() * 20 + 15) + 'px';
-            el.style.animationDuration = (Math.random() * 5 + 6) + 's'; 
-            particlesContainer.appendChild(el);
-            setTimeout(() => { el.remove(); }, 12000);
-        }, 600);
+            const el = document.createElement('div'); el.className = 'login-particle'; el.innerText = pEmojis[Math.floor(Math.random() * pEmojis.length)];
+            el.style.left = Math.random() * 100 + 'vw'; el.style.fontSize = (Math.random() * 15 + 15) + 'px'; el.style.animationDuration = (Math.random() * 4 + 5) + 's'; 
+            pContainer.appendChild(el); setTimeout(() => el.remove(), 10000);
+        }, 800);
 
-        // ================= 2. 107张精准匹配专属文案 =================
+        // ================= 1. 恋爱计时器 =================
+        const startDate = new Date('2026-01-18T00:00:00').getTime(); 
+        function updateTimer() {
+            const now = new Date().getTime(); const diff = now - startDate;
+            document.getElementById('t-days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            let h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); document.getElementById('t-hours').innerText = h < 10 ? '0'+h : h;
+            let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); document.getElementById('t-mins').innerText = m < 10 ? '0'+m : m;
+            let s = Math.floor((diff % (1000 * 60)) / 1000); document.getElementById('t-secs').innerText = s < 10 ? '0'+s : s;
+        }
+        setInterval(updateTimer, 1000);
+
+        // ================= 2. 打字机开场 =================
+        const introText = "这是为你准备的第23个春天的礼物，也是一份特别的纪念。在这里，我收集了107个我们闪闪发光的瞬间。每一个画面都藏着一段故事，每一段文字都是我想对你说的真心话。希望我的宝宝永远开心快乐，永远是那个最爱笑的小仙女。";
+        let typeIndex = 0;
+        function startTypewriter() {
+            if (typeIndex < introText.length) {
+                document.getElementById('typewriter-text').innerHTML += introText.charAt(typeIndex); typeIndex++; setTimeout(startTypewriter, 50); 
+            } else { document.querySelector('.cursor').style.display = 'none'; }
+        }
+
+        // ================= 107张文案 =================
         const captions = {
-            1: "石壁前的红发仙女✨", 2: "海边栈道上的落日余晖🌅",
-            3: "橘色毛衣的可爱剪刀手✌️", 4: "湖畔亭台前的静谧侧颜🍃",
-            5: "倚着白玉栏杆的温柔时光🌿", 6: "波光粼粼里的最美风景🌊",
-            7: "凸面镜里奇奇怪怪的我们🪞", 8: "街头橱窗前的甜蜜合影👫",
-            9: "漫步街头的日常记录🥤", 10: "暖黄灯光下的搞怪自拍😜",
-            11: "绝美的海上日落🌇", 12: "海风吹拂的浪漫傍晚🏖️",
-            13: "拥抱大海的自由灵魂🌊", 14: "暮色海岸线上的剪影👗",
-            15: "天坛祈年殿前的蓝色围巾女孩⛩️", 16: "蓝围巾和最灿烂的笑容😄",
-            17: "裹得严严实实的冬日合照❄️", 18: "冰场上快乐的红衣小将⛷️",
-            19: "体验冰雪世界的快乐小孩☃️", 20: "千佛洞前的虔诚仰望🌟",
-            21: "戴着毛线帽的冬日小可爱🧸", 22: "冰场上英姿飒爽的你⛸️",
-            23: "在冰面上尽情撒欢的瞬间❄️", 24: "冰雪世界里的甜蜜记录📸",
-            25: "捂嘴偷笑的俏皮表情😊", 26: "白雪皑皑里的治愈系少女🤍",
-            27: "冬日冰场上的亮眼女孩🧣", 28: "肩并肩的温暖时光👫",
-            29: "冰天雪地里也要贴贴☕", 30: "记录每一次温暖的对视💓",
-            31: "石洞外的好风景🏔️", 32: "红色爱心镜子里的我们🏮",
-            33: "手里捧着的好运连连🌹", 34: "红墙金瓦下的惊艳⛩️",
-            35: "肃穆古建中灵动的身影🧱", 36: "红帽子和小红帽的调皮自拍🤳",
-            37: "宫廷红墙外的一抹亮色❄️❤️", 38: "定格成拍立得的专属回忆📜",
-            39: "红墙下的甜蜜合照🫂", 40: "我们的小时光就在这红墙下🏰",
-            41: "湖畔暮色里的红帽女孩🧚‍♀️", 42: "侧颜杀！绿衣汉服最惊艳了🍃",
-            43: "夜色中闪闪发光的笑容🍓", 44: "红兜帽里的你，可爱满分💯",
-            45: "夜游的小红帽🏮", 46: "城墙上翩翩起舞的绿衣仙女🍵",
-            47: "红枫林里的汉服少女🍁", 48: "清冷气质拿捏得刚刚好🦢",
-            49: "那一低头的温柔，如清风拂面🌸", 50: "古塔下静谧美好的侧影🏯",
-            51: "凭栏远眺的温婉佳人🔭", 52: "光影洒在你的汉服长裙上🕯️",
-            53: "盛放的粉色繁花与街景🌺", 54: "温婉如玉的古风女孩⛩️",
-            55: "气质如兰，巧笑倩兮🌿", 56: "春日里的绿衣小仙女🧚",
-            57: "古色古香里的唯美瞬间🚶‍♀️", 58: "繁花树下，温柔了岁月🕰️",
-            59: "浪漫花树下的甜蜜合影🌸", 60: "大教堂前的异域风情💒",
-            61: "春天里的浪漫约会🧺", 62: "海风吹拂着温柔的长发🐚",
-            63: "草地上的快乐女孩😊", 64: "夜晚的红帽小可爱💓",
-            65: "海边那个自由自在的灵魂🌊", 66: "夕阳下的海滩漫步🧡",
-            67: "在海风中凌乱也美🌬️", 68: "拿着太阳花气球的你🌻",
-            69: "可爱度爆表的花朵气球🎈", 70: "抓住了五彩斑斓的快乐🌈",
-            71: "彩色气球和蓝天最配了🌤️", 72: "银色气球里的微缩世界🌎",
-            73: "笑得像气球一样灿烂🌼", 74: "和巨型毛绒熊的可爱合影🧸",
-            75: "湖边的红帽子女孩🧣", 76: "带上翅膀的快乐天使👼",
-            77: "在金色的光影里沉醉🍯", 78: "湖畔绿荫下的甜蜜合影👫",
-            79: "夕阳余晖里的浪漫贴贴🌳", 80: "桥上看风景的温柔女孩🌉",
-            81: "夜幕降临前的湖畔合影🏮", 82: "在迷人夜色里相互依偎🌌",
-            83: "黑暗中也挡不住的甜蜜🌟", 84: "怼脸拍也完美无瑕的颜值🎀",
-            85: "白衣少年的帅气瞬间🤍", 86: "冬日里的甜蜜暴击❄️",
-            87: "靠在一起就很美好🛋️", 88: "山野间的快乐合影🌳",
-            89: "千佛壁画前的最美对比🗿", 90: "在石窟里的探秘之旅🔦",
-            91: "在巨佛面前的虔诚祈福🕯️", 92: "历史沉淀出的绝美光影📜",
-            93: "石窟里的打卡合影📸", 94: "佛光映照在你温柔的脸上🌟",
-            95: "你比身后的风景更迷人🌸", 96: "古老文明前的甜蜜见证🤝",
-            97: "灯塔下的那个远方的梦🗼", 98: "俯拍下的搞怪PP😜",
-            99: "在神秘光影前的合照🔮", 100: "橙色衣服超级显白💎",
-            101: "文物前的搞怪双人组🏺", 102: "春意盎然里的快乐合影🌿",
-            103: "在身后悄悄比耶的调皮鬼🍃", 104: "在头上比个大大的心✌️",
-            105: "记录我们在公园的散步⛰️", 106: "在绿色森林里的轻松时刻🌲",
-            107: "倚栏而立，满眼都是春意🌿"
+            1: "石壁前的红发仙女✨", 2: "海边栈道上的落日余晖🌅", 3: "橘色毛衣的可爱剪刀手✌️", 4: "湖畔亭台前的静谧侧颜🍃",
+            5: "倚着白玉栏杆的温柔时光🌿", 6: "波光粼粼里的最美风景🌊", 7: "凸面镜里奇奇怪怪的我们🪞", 8: "街头橱窗前的甜蜜合影👫",
+            9: "漫步街头的日常记录🥤", 10: "暖黄灯光下的搞怪自拍😜", 11: "绝美的海上日落🌇", 12: "海风吹拂的浪漫傍晚🏖️",
+            13: "拥抱大海的自由灵魂🌊", 14: "暮色海岸线上的剪影👗", 15: "天坛祈年殿前的蓝色围巾女孩⛩️", 16: "蓝围巾和最灿烂的笑容😄",
+            17: "裹得严严实实的冬日合照❄️", 18: "冰场上快乐的红衣小将⛷️", 19: "体验冰雪世界的快乐小孩☃️", 20: "千佛洞前的虔诚仰望🌟",
+            21: "戴着毛线帽的冬日小可爱🧸", 22: "冰场上英姿飒爽的你⛸️", 23: "在冰面上尽情撒欢的瞬间❄️", 24: "冰雪世界里的甜蜜记录📸",
+            25: "捂嘴偷笑的俏皮表情😊", 26: "白雪皑皑里的治愈系少女🤍", 27: "冬日冰场上的亮眼女孩🧣", 28: "肩并肩的温暖时光👫",
+            29: "冰天雪地里也要贴贴☕", 30: "记录每一次温暖的对视💓", 31: "石洞外的好风景🏔️", 32: "红色爱心镜子里的我们🏮",
+            33: "手里捧着的好运连连🌹", 34: "红墙金瓦下的惊艳⛩️", 35: "肃穆古建中灵动的身影🧱", 36: "红帽子和小红帽的调皮自拍🤳",
+            37: "宫廷红墙外的一抹亮色❄️❤️", 38: "定格成拍立得的专属回忆📜", 39: "红墙下的甜蜜合照🫂", 40: "我们的小时光就在这红墙下🏰",
+            41: "湖畔暮色里的红帽女孩🧚‍♀️", 42: "侧颜杀！绿衣汉服最惊艳了🍃", 43: "夜色中闪闪发光的笑容🍓", 44: "红兜帽里的你，可爱满分💯",
+            45: "夜游的小红帽🏮", 46: "城墙上翩翩起舞的绿衣仙女🍵", 47: "红枫林里的汉服少女🍁", 48: "清冷气质拿捏得刚刚好🦢",
+            49: "那一低头的温柔，如清风拂面🌸", 50: "古塔下静谧美好的侧影🏯", 51: "凭栏远眺的温婉佳人🔭", 52: "光影洒在你的汉服长裙上🕯️",
+            53: "盛放的粉色繁花与街景🌺", 54: "温婉如玉的古风女孩⛩️", 55: "气质如兰，巧笑倩兮🌿", 56: "春日里的绿衣小仙女🧚",
+            57: "古色古香里的唯美瞬间🚶‍♀️", 58: "繁花树下，温柔了岁月🕰️", 59: "浪漫花树下的甜蜜合影🌸", 60: "大教堂前的异域风情💒",
+            61: "春天里的浪漫约会🧺", 62: "海风吹拂着温柔的长发🐚", 63: "草地上的快乐女孩😊", 64: "夜晚的红帽小可爱💓",
+            65: "海边那个自由自在的灵魂🌊", 66: "夕阳下的海滩漫步🧡", 67: "在海风中凌乱也美🌬️", 68: "拿着太阳花气球的你🌻",
+            69: "可爱度爆表的花朵气球🎈", 70: "抓住了五彩斑斓的快乐🌈", 71: "彩色气球和蓝天最配了🌤️", 72: "银色气球里的微缩世界🌎",
+            73: "笑得像气球一样灿烂🌼", 74: "和巨型毛绒熊的可爱合影🧸", 75: "湖边的红帽子女孩🧣", 76: "带上翅膀的快乐天使👼",
+            77: "在金色的光影里沉醉🍯", 78: "湖畔绿荫下的甜蜜合影👫", 79: "夕阳余晖里的浪漫贴贴🌳", 80: "桥上看风景的温柔女孩🌉",
+            81: "夜幕降临前的湖畔合影🏮", 82: "在迷人夜色里相互依偎🌌", 83: "黑暗中也挡不住的甜蜜🌟", 84: "怼脸拍也完美无瑕的颜值🎀",
+            85: "白衣少年的帅气瞬间🤍", 86: "冬日里的甜蜜暴击❄️", 87: "靠在一起就很美好🛋️", 88: "山野间的快乐合影🌳",
+            89: "千佛壁画前的最美对比🗿", 90: "在石窟里的探秘之旅🔦", 91: "在巨佛面前的虔诚祈福🕯️", 92: "历史沉淀出的绝美光影📜",
+            93: "石窟里的打卡合影📸", 94: "佛光映照在你温柔的脸上🌟", 95: "你比身后的风景更迷人🌸", 96: "古老文明前的甜蜜见证🤝",
+            97: "灯塔下的那个远方的梦🗼", 98: "俯拍下的搞怪PP😜", 99: "在神秘光影前的合照🔮", 100: "橙色衣服超级显白💎",
+            101: "文物前的搞怪双人组🏺", 102: "春意盎然里的快乐合影🌿", 103: "在身后悄悄比耶的调皮鬼🍃", 104: "在头上比个大大的心✌️",
+            105: "记录我们在公园的散步⛰️", 106: "在绿色森林里的轻松时刻🌲", 107: "倚栏而立，满眼都是春意🌿"
         };
 
         const wall = document.getElementById('photo-wall');
+        const lightbox = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lightbox-img');
+        const lbText = document.getElementById('lightbox-text');
+
         for(let i=1; i<=107; i++){
-            const card = document.createElement('div');
-            card.className = 'photo-card';
-            card.innerHTML = `<img src="${i}.jpg" loading="lazy"><p>${captions[i] || '美好瞬间 ✨'}</p>`;
+            const card = document.createElement('div'); card.className = 'photo-card'; let cap = captions[i] || '美好瞬间 ✨';
+            card.innerHTML = `<img src="${i}.jpg" loading="lazy" alt="photo"><p>${cap}</p>`;
+            card.onclick = function(e) { e.stopPropagation(); lbImg.src = `${i}.jpg`; lbText.innerText = cap; lightbox.style.display = 'flex'; setTimeout(() => lightbox.style.opacity = '1', 50); };
             wall.appendChild(card);
         }
+        function closeLightbox() { lightbox.style.opacity = '0'; setTimeout(() => lightbox.style.display = 'none', 300); }
+        lightbox.onclick = closeLightbox;
 
-        // ================= 3. 傲娇躲避鼠标逻辑 =================
-        let pleads = ["再考虑一下嘛，好不好？🥺", "哎呀，点不到我了吧！😜", "真的不写了吗？我不信！😟", "哪怕只有一点点想继续？🙏", "嘿嘿，快去点‘是’吧！🐾"];
-        let pCount = 0;
-        let isDodging = false;
-        const btnNo = document.querySelector('.btn-no');
-        const persistMsg = document.getElementById('persist-msg');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('reveal'); observer.unobserve(entry.target); } });
+        }, { threshold: 0.1 }); 
+        document.querySelectorAll('.photo-card').forEach(card => observer.observe(card));
 
-        function handleNo() {
-            if (!isDodging) {
-                isDodging = true;
-                persistMsg.innerText = "哎呀，不要选这个嘛！";
+        // ================= 躲避逻辑 =================
+        let pleads = ["再考虑一下嘛？🥺", "点不到我吧！😜", "真的不写了吗？😟", "哪怕一点点想继续？🙏", "快去点‘是’吧！🐾"];
+        let pCount = 0; let isDodging = false;
+        const btnNo = document.querySelector('.btn-no'); const persistMsg = document.getElementById('persist-msg');
+        function handleNo() { if (!isDodging) { isDodging = true; persistMsg.innerText = "哎呀，不要选这个嘛！"; } else { persistMsg.innerText = pleads[pCount % pleads.length]; pCount++; } }
+        function dodgeButton() {
+            if (isDodging) {
+                const randomX = Math.floor(Math.random() * 150) - 75; const randomY = Math.floor(Math.random() * 100) - 50; 
+                btnNo.style.transform = `translate(${randomX}px, ${randomY}px) scale(0.9)`;
+                persistMsg.innerText = pleads[pCount % pleads.length]; persistMsg.style.animation = 'none'; void persistMsg.offsetWidth; persistMsg.style.animation = 'shake 0.3s'; pCount++;
             }
         }
+        btnNo.addEventListener('mouseover', dodgeButton); btnNo.addEventListener('touchstart', dodgeButton, {passive: true});
 
-        btnNo.addEventListener('mouseover', function() {
-            if (isDodging) {
-                const randomX = Math.floor(Math.random() * 400) - 200;
-                const randomY = Math.floor(Math.random() * 200) - 150; 
-                const randomRotate = Math.floor(Math.random() * 40) - 20;
-                btnNo.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
-                
-                persistMsg.innerText = pleads[pCount % pleads.length];
-                persistMsg.style.animation = 'none';
-                void persistMsg.offsetWidth; 
-                persistMsg.style.animation = 'shake 0.3s';
-                pCount++;
-            }
-        });
-
+        // ================= 4. 信封拆解 =================
         function handleYes() {
             document.getElementById('interaction-box').style.display = 'none';
-            const letter = document.getElementById('letter-box');
-            letter.style.display = 'block';
-            setTimeout(() => letter.style.opacity = '1', 100);
+            document.getElementById('envelope-scene').style.display = 'block';
+            document.getElementById('final-title').innerText = "💌 给你的一封信 💌";
         }
 
-        // ================= 4. 密码验证与场景切换 =================
+        function openEnvelope() {
+            const envWrapper = document.querySelector('.envelope-wrapper');
+            if(!envWrapper.classList.contains('open')){
+                envWrapper.classList.add('open'); document.querySelector('.envelope-hint').style.display = 'none'; 
+                setTimeout(() => {
+                    document.getElementById('envelope-scene').style.display = 'none';
+                    const letter = document.getElementById('letter-box'); letter.style.display = 'block'; setTimeout(() => letter.style.opacity = '1', 50);
+                    const paras = document.querySelectorAll('.fade-in-para');
+                    paras.forEach((p, index) => { setTimeout(() => p.classList.add('visible'), index * 1000); });
+                }, 1800);
+            }
+        }
+
+        // ================= 真·录音功能 (Web Audio API) =================
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+        let recordInterval;
+        let secondsRecorded = 0;
+        let hasSpinChance = false;
+        let totalSpinsUsed = 0;
+        const MAX_SPINS = 3;
+
+        const recordBtn = document.getElementById('record-btn');
+        const recordTimerDisplay = document.getElementById('record-timer');
+        const audioList = document.getElementById('audio-list');
+        const spinBtn = document.getElementById('spin-btn');
+        const spinCounter = document.getElementById('spin-counter');
+        const recordHint = document.getElementById('record-hint');
+
+        // 万一浏览器不支持录音，给一个强制解锁后门，防止卡死
+        function unlockSpinBypass() {
+            hasSpinChance = true;
+            recordBtn.innerText = "✅ 浏览器限制，已强制解锁抽奖！";
+            recordBtn.style.background = "#8fcb9b";
+            document.getElementById('record-section').classList.add('active');
+            spinBtn.classList.add('ready');
+            spinBtn.innerText = "🎡 开始抽奖！";
+            spinCounter.innerText = `🎁 剩余抽奖：1 次 (已用 ${totalSpinsUsed}/${MAX_SPINS} 次)`;
+        }
+
+        async function toggleRecording() {
+            if (hasSpinChance || totalSpinsUsed >= MAX_SPINS) return;
+
+            // 环境监测机制
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert("宝宝，当前手机浏览器或网络环境（需HTTPS）不支持录音功能哦！\n不过没关系，PL给你特权，直接为你解锁1次抽奖机会！");
+                unlockSpinBypass();
+                return;
+            }
+
+            if (!isRecording) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+                    
+                    mediaRecorder.ondataavailable = e => { if(e.data.size > 0) audioChunks.push(e.data); };
+                    mediaRecorder.onstop = createAudioElement;
+                    
+                    mediaRecorder.start();
+                    isRecording = true;
+                    secondsRecorded = 0;
+                    
+                    recordBtn.classList.add('recording');
+                    recordBtn.innerText = "🛑 正在录音... 点击结束";
+                    recordTimerDisplay.style.display = 'block';
+                    recordTimerDisplay.innerText = "00:00";
+                    
+                    document.getElementById('bg-music').pause();
+                    document.getElementById('music-btn').classList.remove('rotating');
+
+                    recordInterval = setInterval(() => {
+                        secondsRecorded++;
+                        let secs = secondsRecorded < 10 ? '0'+secondsRecorded : secondsRecorded;
+                        recordTimerDisplay.innerText = "00:" + secs;
+                        if(secondsRecorded >= 60) toggleRecording(); 
+                    }, 1000);
+
+                } catch(err) {
+                    alert("宝宝，需要在手机设置里允许浏览器使用麦克风才能录音哦！\n如果弄不好没关系，直接给你解锁1次抽奖机会！");
+                    unlockSpinBypass();
+                }
+            } else {
+                mediaRecorder.stop();
+                isRecording = false;
+                clearInterval(recordInterval);
+                
+                recordBtn.classList.remove('recording');
+                recordTimerDisplay.style.display = 'none';
+                
+                document.getElementById('bg-music').play();
+                document.getElementById('music-btn').classList.add('rotating');
+            }
+        }
+
+        function createAudioElement() {
+            if(secondsRecorded < 2) {
+                alert("⚠️ 录音太短啦，多说几句心里话嘛！");
+                recordBtn.innerText = "🎙️ 点击开始录制心声";
+                return;
+            }
+
+            const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+            const audioUrl = URL.createObjectURL(audioBlob);
+            
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'audio-item';
+            
+            const audioEl = document.createElement('audio');
+            audioEl.controls = true;
+            audioEl.src = audioUrl;
+            
+            const saveBtn = document.createElement('a');
+            saveBtn.className = 'save-audio-btn';
+            saveBtn.href = audioUrl;
+            saveBtn.download = '给PL的心声.mp3';
+            saveBtn.innerText = "📥 保存录音发给PL";
+
+            itemDiv.appendChild(audioEl);
+            itemDiv.appendChild(saveBtn);
+            audioList.innerHTML = ''; 
+            audioList.appendChild(itemDiv);
+
+            hasSpinChance = true;
+            recordBtn.innerText = "✅ 收到表白！(可播放确认)";
+            recordBtn.style.background = "#8fcb9b";
+            recordHint.innerText = "已解锁 1 次抽奖机会，快去下面试试手气吧！";
+            document.getElementById('record-section').classList.add('active');
+            
+            spinBtn.classList.add('ready');
+            spinBtn.innerText = "🎡 开始抽奖！";
+            spinCounter.innerText = `🎁 剩余抽奖：1 次 (已用 ${totalSpinsUsed}/${MAX_SPINS} 次)`;
+        }
+
+        // ================= 8等分转盘抽奖逻辑 =================
+        let currentRotation = 0;
+        let isSpinning = false;
+        function spinWheel() {
+            if (isSpinning || !hasSpinChance || totalSpinsUsed >= MAX_SPINS) return;
+            
+            isSpinning = true;
+            hasSpinChance = false; 
+            totalSpinsUsed++;
+            
+            spinBtn.classList.remove('ready');
+            spinBtn.innerText = "抽奖中...";
+            spinCounter.innerText = `🎁 剩余抽奖：0 次 (已用 ${totalSpinsUsed}/${MAX_SPINS} 次)`;
+
+            const wheel = document.getElementById('lucky-wheel');
+            const extraSpins = Math.floor(Math.random() * 5) + 5; 
+            const randomAngle = Math.floor(Math.random() * 360); 
+            currentRotation += (extraSpins * 360) + randomAngle;
+            wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+            setTimeout(() => {
+                isSpinning = false;
+                const actualAngle = currentRotation % 360;
+                const pointerAngle = (360 - actualAngle) % 360;
+                const index = Math.floor(pointerAngle / 45);
+                
+                const prizes = [
+                    "转账520", "豪华大餐", "零食大礼包", "抱抱亲亲", 
+                    "专属哄睡", "免生气金牌", "专属陪伴", "帮你按摩"
+                ];
+                
+                alert("🎉 恭喜宝宝抽中特权：【" + prizes[index] + "】！\n截个图，记得找PL兑换哦！");
+
+                document.getElementById('record-section').classList.remove('active');
+                if (totalSpinsUsed < MAX_SPINS) {
+                    recordBtn.innerText = "🎙️ 点击再次录音解锁";
+                    recordBtn.style.background = "#ff6b6b";
+                    recordHint.innerText = "机会用完啦，再录一段心声解锁下一次机会吧！";
+                    spinBtn.innerText = "等待录音解锁...";
+                } else {
+                    recordBtn.innerText = "💖 抽奖完毕 💖";
+                    recordBtn.style.background = "#ccc";
+                    recordBtn.style.pointerEvents = "none";
+                    recordHint.innerText = "三次特权都已经抽完啦，我会好好兑现的！\n（别忘了把录音保存发给我哦）";
+                    spinBtn.innerText = "特权已全部解锁";
+                }
+
+            }, 5000); 
+        }
+
+        // ================= 密码验证 =================
         const glassBox = document.getElementById('glass-box');
         document.getElementById('submit-btn').onclick = function() {
-            if(document.getElementById('password-input').value === '0428'){
-                clearInterval(loginParticleInterval);
+            // 支持去除空格，防止手机输入自带空格导致报错
+            const pwd = document.getElementById('password-input').value.trim();
+            if(pwd === '0428'){
+                // 1. 突破手机端自动播放限制，立即播放音乐
+                const music = document.getElementById('bg-music');
+                const mBtn = document.getElementById('music-btn');
                 
+                let playPromise = music.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => { console.log("自动播放被拦截，需要用户点击播放按钮", error); });
+                }
+                
+                mBtn.style.display = 'flex'; 
+                mBtn.classList.add('rotating'); 
+
+                // 2. 页面跳转
+                clearInterval(loginParticleInterval); 
                 document.getElementById('login-screen').style.opacity = '0';
+                
                 setTimeout(() => {
                     document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('main-content').style.display = 'block';
-                    document.getElementById('main-content').style.opacity = '1';
-                    document.getElementById('music-btn').style.display = 'block';
-                    document.getElementById('bg-music').play();
-                }, 1000);
+                    const mainContent = document.getElementById('main-content');
+                    mainContent.style.display = 'block';
+                    void mainContent.offsetWidth; // 强制重绘，保证平滑过渡
+                    mainContent.style.opacity = '1';
+                    
+                    setTimeout(startTypewriter, 500);
+
+                    let isPlaying = true;
+                    mBtn.onclick = function() {
+                        if(isPlaying) { music.pause(); mBtn.classList.remove('rotating'); } 
+                        else { music.play(); mBtn.classList.add('rotating'); }
+                        isPlaying = !isPlaying;
+                    };
+                }, 800);
             } else {
-                glassBox.classList.add('shake');
+                glassBox.classList.add('shake'); 
                 document.getElementById('error-msg').innerText = "密码不对哦，再仔细想想宝宝！🐾";
                 setTimeout(() => glassBox.classList.remove('shake'), 400);
             }
         };
+
+        // 监听手机键盘的回车键（Go/前往）
+        document.getElementById('password-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') { document.getElementById('submit-btn').click(); }
+        });
     </script>
 </body>
 </html>
