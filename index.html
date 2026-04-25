@@ -19,7 +19,7 @@
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='32' height='32' viewport='0 0 32 32' style='fill:black;font-size:24px;'><text y='50%'>🐾</text></svg>") 16 16, auto;
         }
 
-        button, a, .photo-card, .envelope-wrapper, #spin-btn, #record-btn, .save-audio-btn {
+        button, a, .photo-card, .envelope-wrapper, #spin-btn, #record-btn, .save-audio-btn, .puzzle-tile, .pl-photo-stack img {
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='32' height='32' viewport='0 0 32 32' style='fill:black;font-size:24px;'><text y='50%'>🐾</text></svg>") 16 16, pointer !important;
         }
 
@@ -45,6 +45,42 @@
         .submit-btn { margin-top: 20px; padding: 12px 30px; font-size: 1.1rem; background: var(--primary-color); color: white; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; font-weight: bold; box-shadow: 0 4px 15px rgba(143, 203, 155, 0.5); width: 80%; max-width: 200px; -webkit-appearance: none; }
         .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
         @keyframes shake { 10%, 90% { transform: translate3d(-1px,0,0); } 20%, 80% { transform: translate3d(2px,0,0); } 30%, 50%, 70% { transform: translate3d(-4px,0,0); } }
+
+        /* ================= 新增：PL专属生日彩蛋页面 (22岁版+照片墙) ================= */
+        #pl-birthday-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 10000; opacity: 0; transition: opacity 1s ease-in; color: white; overflow: hidden;
+        }
+        .pl-glass-box {
+            position: relative; z-index: 10; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 40px 30px 30px; text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); width: 85%; max-width: 450px;
+        }
+        .confetti { position: absolute; width: 10px; height: 10px; z-index: 10001; animation: fall linear forwards; }
+        @keyframes fall { 0% { transform: translateY(-5vh) rotate(0deg); opacity: 1;} 100% { transform: translateY(105vh) rotate(720deg); opacity: 0;} }
+
+        /* PL的专属照片叠放墙 */
+        .pl-photo-stack {
+            display: flex; justify-content: center; align-items: center;
+            margin: 10px auto 25px; position: relative; height: 130px; width: 100%;
+        }
+        .pl-photo-stack img {
+            position: absolute; width: 100px; height: 100px; object-fit: cover;
+            border: 3px solid white; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .pl-pic-1 { transform: translateX(-70px) rotate(-15deg); z-index: 1; }
+        .pl-pic-2 { transform: translateX(-35px) rotate(-5deg); z-index: 2; }
+        .pl-pic-3 { transform: translateX(0px) rotate(3deg); z-index: 3; }
+        .pl-pic-4 { transform: translateX(35px) rotate(12deg); z-index: 4; }
+        .pl-pic-5 { transform: translateX(70px) rotate(22deg); z-index: 5; }
+        .pl-photo-stack img:hover {
+            transform: translateY(-15px) scale(1.2) rotate(0deg) !important;
+            z-index: 10 !important;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
 
         /* ================= 主页面与动态背景 ================= */
         #main-content { display: none; opacity: 0; transition: opacity 1s ease-in; min-height: 100vh; padding-bottom: 50px; position: relative; }
@@ -109,45 +145,30 @@
         .fade-in-para { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
         .fade-in-para.visible { opacity: 1; transform: translateY(0); }
 
-        /* ================= 升级版：真实录音 & 8项情绪价值转盘 ================= */
+        /* ================= 拼图游戏 ================= */
+        #puzzle-container { position: relative; width: 300px; height: 300px; margin: 0 auto; background: #eee; border: 3px solid var(--primary-color); border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .puzzle-tile { position: absolute; width: 100px; height: 100px; background-image: url('1.jpg'); background-size: 300px 300px; transition: top 0.2s ease-in-out, left 0.2s ease-in-out; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.5); }
+        .puzzle-tile.empty { background: none; border: none; cursor: default !important; }
+
+        /* ================= 真实录音 & 8项转盘 ================= */
         .record-section { margin: 30px auto; padding: 25px 15px; background: #fff; border-radius: 20px; border: 2px dashed #ccc; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .record-section.active { border-color: var(--primary-color); background: #f0fdf4; }
         
-        #record-btn {
-            background: #ff6b6b; color: white; border: none; padding: 15px 30px; font-size: 1.1rem; 
-            border-radius: 50px; font-weight: bold; display: inline-flex; align-items: center; gap: 10px;
-            box-shadow: 0 5px 15px rgba(255,107,107,0.4); transition: 0.2s; user-select: none; -webkit-user-select: none; margin: 10px 0;
-        }
+        #record-btn { background: #ff6b6b; color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 50px; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(255,107,107,0.4); transition: 0.2s; user-select: none; -webkit-user-select: none; margin: 10px 0; }
         #record-btn.recording { transform: scale(0.95); background: #ff4757; animation: heartbeat 1.5s infinite; }
         @keyframes heartbeat { 0% { transform: scale(0.95); box-shadow: 0 0 10px #ff4757;} 50% { transform: scale(1.05); box-shadow: 0 0 30px #ff4757;} 100% { transform: scale(0.95); box-shadow: 0 0 10px #ff4757;} }
         
         .record-timer { font-size: 1.5rem; font-weight: bold; color: #ff4757; margin-top: 10px; display: none; }
-        
-        /* 录音播放列表区 */
         #audio-list { margin-top: 15px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
         .audio-item { background: #f8f9fa; padding: 10px; border-radius: 15px; width: 100%; box-sizing: border-box; border: 1px solid #eee; display: flex; flex-direction: column; align-items: center; gap: 10px; }
         audio { width: 100%; height: 40px; outline: none; }
         .save-audio-btn { background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; font-weight: bold; border: none; }
 
-        /* 8等分完美转盘 */
         .wheel-container { position: relative; width: 280px; height: 280px; margin: 30px auto 20px; }
         .wheel-pointer { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 45px; color: #ff4757; z-index: 10; text-shadow: 0 4px 8px rgba(0,0,0,0.3); }
         .wheel-center-dot { position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; background: white; border: 4px solid var(--primary-color); border-radius: 50%; transform: translate(-50%, -50%); z-index: 5; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .wheel { 
-            width: 100%; height: 100%; border-radius: 50%; border: 6px solid white; 
-            box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
-            background: conic-gradient( 
-                #b5e4c3 0 45deg, #f7fff7 45deg 90deg, #ffdac1 90deg 135deg, #e2f3e4 135deg 180deg, 
-                #ffb7b2 180deg 225deg, #9ad6a5 225deg 270deg, #ff9a9e 270deg 315deg, #ffffff 315deg 360deg 
-            ); 
-            transition: transform 5s cubic-bezier(0.25, 0.1, 0.15, 1); position: relative; overflow: hidden;
-        }
-        .wheel-text { 
-            position: absolute; width: 80px; height: 60px; top: 50%; left: 50%; 
-            margin-top: -30px; margin-left: -40px; text-align: center; display: flex; align-items: center; justify-content: center;
-            font-size: 13px; font-weight: bold; color: var(--text-color); line-height: 1.3; 
-            transform-origin: center center;
-        }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 6px solid white; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.15); background: conic-gradient( #b5e4c3 0 45deg, #f7fff7 45deg 90deg, #ffdac1 90deg 135deg, #e2f3e4 135deg 180deg, #ffb7b2 180deg 225deg, #9ad6a5 225deg 270deg, #ff9a9e 270deg 315deg, #ffffff 315deg 360deg ); transition: transform 5s cubic-bezier(0.25, 0.1, 0.15, 1); position: relative; overflow: hidden; }
+        .wheel-text { position: absolute; width: 80px; height: 60px; top: 50%; left: 50%; margin-top: -30px; margin-left: -40px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: var(--text-color); line-height: 1.3; transform-origin: center center; }
         
         #spin-btn { background: #ccc; pointer-events: none; transition: 0.3s; padding: 15px 40px; font-size: 1.2rem; }
         #spin-btn.ready { background: var(--primary-color); pointer-events: auto; box-shadow: 0 5px 15px rgba(143,203,155,0.5); animation: pulse-glow 1.5s infinite alternate; }
@@ -173,6 +194,28 @@
             <br>
             <button class="submit-btn" id="submit-btn">开启惊喜</button>
             <div id="error-msg" style="color: #ff4757; margin-top: 15px; font-weight: bold; font-size: 0.9rem;"></div>
+        </div>
+    </div>
+
+    <div id="pl-birthday-screen">
+        <div class="mysterious-title" style="font-size: 2.5rem; color: #ffeb3b; text-shadow: 0 0 20px rgba(255,235,59,0.8); margin-bottom: 10px; z-index: 10;">🎂 祝我自己生日快乐 🎂</div>
+        <div class="pl-glass-box">
+            
+            <div class="pl-photo-stack" id="pl-photo-stack">
+                </div>
+
+            <p style="font-size: 1.1rem; line-height: 2; margin-bottom: 25px; text-align: justify; text-align-last: center;">
+                致那个为了准备这份礼物，<br>
+                熬夜选照片、敲代码的男孩：<br>
+                <strong style="color: #ffeb3b; font-size: 1.3rem;">辛苦啦！</strong><br><br>
+                今天也是你的 <strong style="color: #ffeb3b; font-size: 1.3rem;">22岁</strong> 生日！<br>
+                在这个特别的日子里，<br>
+                愿你的深情永远不被辜负，<br>
+                愿你和PP的未来闪闪发光。<br>
+                <br>
+                <strong>22岁生日快乐，PL！👑</strong>
+            </p>
+            <button class="submit-btn" style="background: transparent; border: 2px solid #ffeb3b; color: #ffeb3b; box-shadow: 0 0 15px rgba(255,235,59,0.3);" onclick="backToLogin()">返回送惊喜给宝宝</button>
         </div>
     </div>
 
@@ -207,7 +250,7 @@
             <h2 id="final-title">✨ 最后一个惊喜 ✨</h2>
             
             <div id="interaction-box">
-                <p style="font-size: 1.1rem; margin-bottom: 15px;">读完了这100个瞬间，你是不是还想和PL一起书写接下来的故事呢？</p>
+                <p style="font-size: 1.1rem; margin-bottom: 15px;">读完了这107个瞬间，你是不是还想和PL一起书写接下来的故事呢？</p>
                 <div class="choice-btn-group">
                     <button class="choice-btn btn-no" onclick="handleNo()">否</button>
                     <button class="choice-btn btn-yes" onclick="handleYes()">是</button>
@@ -228,9 +271,9 @@
                 <div class="letter-content">
                     <p class="fade-in-para">亲爱的PP：</p>
                     <p class="fade-in-para">谢谢你坚定地选择了“是”。</p>
-                    <p class="fade-in-para">这107张照片，记录了我们在千佛洞前的惊叹，在海边等过的落日，在天坛吹过的寒风，还有你穿上绿衣汉服时那惊艳的样子。我忘不了你的每一次微笑，像春风一样拂过我的脸庞，让久久不能忘却，每一次按下快门，其实都是我在心里说了一次：<strong>“遇见你真好”。</strong></p>
+                    <p class="fade-in-para">这107张照片，记录了我们在千佛洞前的惊叹，在海边等过的落日，在天坛吹过的寒风，还有你穿上绿衣汉服时那惊艳的样子。我忘不了你的每一次微笑，像春风一样拂过我的脸庞，让我久久不能忘却，每一次按下快门，其实都是我在心里说了一次：<strong>“遇见你真好”。</strong></p>
                     <p class="fade-in-para">你知道吗？从我们的第一面起，我觉得我们的故事就不会断。和你在一起的每时每刻我都很开心，也希望你也能每天开心快乐。</p>
-					 <p class="fade-in-para">我知道异地恋很困难，我们都克服不了见不了面的难受，每次赶去见你的路上觉得一切都是那么美好，我想见你，想要马上见到你，高铁很快但是追不上我对你的想念，飞机更快但还是不够，我只想每时每刻和你在一起。</p>
+                    <p class="fade-in-para">我知道异地恋很困难，我们都克服不了见不了面的难受，每次赶去见你的路上觉得一切都是那么美好，我想见你，想要马上见到你，高铁很快但是追不上我对你的想念，飞机更快但还是不够，我只想每时每刻和你在一起。</p>
                     <p class="fade-in-para">今天不仅是你23岁的生日，更是我们在一起的<strong>第100天纪念日</strong>。100天，很多个闪光的瞬间，原来不知不觉中，我们已经留下了这么多美好的回忆。这100天只是一个美好的开始，未来的日子，我们还有更多的 100 天，更多的开心快乐。</p>
                     <p class="fade-in-para">我知道你喜欢小动物，喜欢清新自然的绿色。所以我把这里布置成了你最喜欢的样子。无论世界如何变，我都会陪在你身边，一起去解锁更多未知的地图。</p>
                     <p class="fade-in-para"><strong>23岁生日快乐，100天快乐，我的PP宝宝！🐶🐱</strong></p>
@@ -238,10 +281,10 @@
                     
                     <div class="fade-in-para" style="margin-top: 40px; text-align: center; border-top: 1px dashed var(--primary-color); padding-top: 30px;">
                         <p style="font-weight: bold; color: var(--primary-color); font-size: 1.1rem; margin-bottom: 15px;">🎬 我们的故事，未完待续 🎬</p>
-                       <video controls playsinline webkit-playsinline preload="metadata" style="width: 100%; max-width: 320px; aspect-ratio: 9/16; height: auto; object-fit: contain; background: #000; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: block; margin: 0 auto; outline: none;">
-    <source src="1.mp4" type="video/mp4">
-    您的浏览器不支持视频播放哦。
-</video>
+                        <video controls playsinline webkit-playsinline preload="metadata" style="width: 100%; max-width: 320px; aspect-ratio: 9/16; height: auto; object-fit: contain; background: #000; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: block; margin: 0 auto; outline: none;">
+                            <source src="1.mp4" type="video/mp4">
+                            您的浏览器不支持视频播放哦。
+                        </video>
                     </div>
 
                     <div class="fade-in-para" style="margin-top: 40px; text-align: center; border-top: 1px dashed var(--primary-color); padding-top: 30px;">
@@ -250,7 +293,6 @@
                         <div class="record-section" id="record-section">
                             <p style="font-size: 1.2rem; font-weight: bold; color: #ff6b6b; margin-bottom: 5px;" id="spin-counter">🎁 剩余抽奖：0 次 (共 3 次)</p>
                             <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;" id="record-hint">点击下方按钮，大声说出你最想对PL说的话<br>(最长60秒，录完即可解锁1次机会！)</p>
-                            
                             <button id="record-btn" onclick="toggleRecording()">🎙️ 点击开始录制心声</button>
                             <div class="record-timer" id="record-timer">00:00</div>
                             <div id="audio-list"></div> 
@@ -272,6 +314,25 @@
                         </div>
                         <button class="choice-btn" id="spin-btn" onclick="spinWheel()">等待录音解锁...</button>
                     </div>
+
+                    <div class="fade-in-para" style="margin-top: 50px; text-align: center; border-top: 1px dashed var(--primary-color); padding-top: 30px;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 10px; font-size: 1.4rem;">🧩 终极隐藏彩蛋：拼凑回忆 🧩</h3>
+                        <p style="font-size: 0.95rem; color: #666; margin-bottom: 15px;" id="puzzle-hint">完成这个滑动拼图，解锁PL为你准备礼物的“绝密幕后花絮”！<br>(点击相邻的方块移动)</p>
+                        
+                        <div id="puzzle-game-area">
+                            <div id="puzzle-container"></div>
+                            <button onclick="skipPuzzle()" style="margin-top: 20px; font-size: 0.9rem; padding: 8px 20px; background: transparent; color: #999; border: 1px solid #ccc; border-radius: 20px; cursor: pointer;">实在拼不出来？点击向PL求助</button>
+                        </div>
+
+                        <div id="secret-video-container" style="display: none; margin-top: 20px;">
+                            <p style="font-weight: bold; color: #ff6b6b; font-size: 1.2rem; margin-bottom: 15px;">🎬 绝密花絮：为你准备惊喜的日与夜 🎬</p>
+                            <video id="secret-video" controls playsinline webkit-playsinline preload="metadata" style="width: 100%; max-width: 320px; aspect-ratio: 9/16; height: auto; object-fit: contain; background: #000; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: block; margin: 0 auto; outline: none;">
+                                <source src="2.mp4" type="video/mp4">
+                                您的浏览器不支持视频播放哦。
+                            </video>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -320,7 +381,8 @@
         }
         setInterval(updateTimer, 1000);
 
-        // ================= 2. 打字机开场 =================
+
+        // ================= 2. 打字机 =================
         const introText = "这是为你准备的第23个春天的礼物，也是一份特别的纪念。在这里，我收集了107个我们闪闪发光的瞬间。每一个画面都藏着一段故事，每一段文字都是我想对你说的真心话。希望我的宝宝永远开心快乐，永远是那个最爱笑的小仙女。";
         let typeIndex = 0;
         function startTypewriter() {
@@ -393,7 +455,7 @@
         }
         btnNo.addEventListener('mouseover', dodgeButton); btnNo.addEventListener('touchstart', dodgeButton, {passive: true});
 
-        // ================= 4. 信封拆解 =================
+        // ================= 4. 信封拆解与初始化拼图 =================
         function handleYes() {
             document.getElementById('interaction-box').style.display = 'none';
             document.getElementById('envelope-scene').style.display = 'block';
@@ -409,211 +471,227 @@
                     const letter = document.getElementById('letter-box'); letter.style.display = 'block'; setTimeout(() => letter.style.opacity = '1', 50);
                     const paras = document.querySelectorAll('.fade-in-para');
                     paras.forEach((p, index) => { setTimeout(() => p.classList.add('visible'), index * 1000); });
+                    
+                    // 初始化拼图游戏
+                    initPuzzle();
                 }, 1800);
             }
         }
 
-        // ================= 真·录音功能 (Web Audio API) =================
-        let mediaRecorder;
-        let audioChunks = [];
-        let isRecording = false;
-        let recordInterval;
-        let secondsRecorded = 0;
-        let hasSpinChance = false;
-        let totalSpinsUsed = 0;
-        const MAX_SPINS = 3;
-
-        const recordBtn = document.getElementById('record-btn');
-        const recordTimerDisplay = document.getElementById('record-timer');
-        const audioList = document.getElementById('audio-list');
-        const spinBtn = document.getElementById('spin-btn');
-        const spinCounter = document.getElementById('spin-counter');
-        const recordHint = document.getElementById('record-hint');
-
-        // 万一浏览器不支持录音，给一个强制解锁后门，防止卡死
-        function unlockSpinBypass() {
-            hasSpinChance = true;
-            recordBtn.innerText = "✅ 浏览器限制，已强制解锁抽奖！";
-            recordBtn.style.background = "#8fcb9b";
-            document.getElementById('record-section').classList.add('active');
-            spinBtn.classList.add('ready');
-            spinBtn.innerText = "🎡 开始抽奖！";
-            spinCounter.innerText = `🎁 剩余抽奖：1 次 (已用 ${totalSpinsUsed}/${MAX_SPINS} 次)`;
-        }
+        // ================= 真·录音功能 & 转盘 =================
+        let mediaRecorder; let audioChunks = []; let isRecording = false; let recordInterval; let secondsRecorded = 0; let hasSpinChance = false; let totalSpinsUsed = 0; const MAX_SPINS = 3;
+        const recordBtn = document.getElementById('record-btn'); const recordTimerDisplay = document.getElementById('record-timer'); const audioList = document.getElementById('audio-list'); const spinBtn = document.getElementById('spin-btn'); const spinCounter = document.getElementById('spin-counter'); const recordHint = document.getElementById('record-hint');
+        function unlockSpinBypass() { hasSpinChance = true; recordBtn.innerText = "✅ 浏览器限制，已强制解锁抽奖！"; recordBtn.style.background = "#8fcb9b"; document.getElementById('record-section').classList.add('active'); spinBtn.classList.add('ready'); spinBtn.innerText = "🎡 开始抽奖！"; spinCounter.innerText = `🎁 剩余抽奖：1 次 (已用 ${totalSpinsUsed}/${MAX_SPINS} 次)`; }
 
         async function toggleRecording() {
             if (hasSpinChance || totalSpinsUsed >= MAX_SPINS) return;
-
-            // 环境监测机制
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                alert("宝宝，当前手机浏览器或网络环境（需HTTPS）不支持录音功能哦！\n不过没关系，PL给你特权，直接为你解锁1次抽奖机会！");
-                unlockSpinBypass();
-                return;
-            }
-
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { alert("宝宝，当前手机浏览器不支持录音哦！\n直接为你解锁1次抽奖机会！"); unlockSpinBypass(); return; }
             if (!isRecording) {
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(stream);
-                    audioChunks = [];
-                    
+                    mediaRecorder = new MediaRecorder(stream); audioChunks = [];
                     mediaRecorder.ondataavailable = e => { if(e.data.size > 0) audioChunks.push(e.data); };
                     mediaRecorder.onstop = createAudioElement;
-                    
-                    mediaRecorder.start();
-                    isRecording = true;
-                    secondsRecorded = 0;
-                    
-                    recordBtn.classList.add('recording');
-                    recordBtn.innerText = "🛑 正在录音... 点击结束";
-                    recordTimerDisplay.style.display = 'block';
-                    recordTimerDisplay.innerText = "00:00";
-                    
-                    document.getElementById('bg-music').pause();
-                    document.getElementById('music-btn').classList.remove('rotating');
-
-                    recordInterval = setInterval(() => {
-                        secondsRecorded++;
-                        let secs = secondsRecorded < 10 ? '0'+secondsRecorded : secondsRecorded;
-                        recordTimerDisplay.innerText = "00:" + secs;
-                        if(secondsRecorded >= 60) toggleRecording(); 
-                    }, 1000);
-
-                } catch(err) {
-                    alert("宝宝，需要在手机设置里允许浏览器使用麦克风才能录音哦！\n如果弄不好没关系，直接给你解锁1次抽奖机会！");
-                    unlockSpinBypass();
-                }
+                    mediaRecorder.start(); isRecording = true; secondsRecorded = 0;
+                    recordBtn.classList.add('recording'); recordBtn.innerText = "🛑 正在录音... 点击结束"; recordTimerDisplay.style.display = 'block'; recordTimerDisplay.innerText = "00:00";
+                    document.getElementById('bg-music').pause(); document.getElementById('music-btn').classList.remove('rotating');
+                    recordInterval = setInterval(() => { secondsRecorded++; let secs = secondsRecorded < 10 ? '0'+secondsRecorded : secondsRecorded; recordTimerDisplay.innerText = "00:" + secs; if(secondsRecorded >= 60) toggleRecording(); }, 1000);
+                } catch(err) { alert("需要在手机设置里允许浏览器使用麦克风才能录音哦！\n直接给你解锁1次抽奖机会！"); unlockSpinBypass(); }
             } else {
-                mediaRecorder.stop();
-                isRecording = false;
-                clearInterval(recordInterval);
-                
-                recordBtn.classList.remove('recording');
-                recordTimerDisplay.style.display = 'none';
-                
-                document.getElementById('bg-music').play();
-                document.getElementById('music-btn').classList.add('rotating');
+                mediaRecorder.stop(); isRecording = false; clearInterval(recordInterval);
+                recordBtn.classList.remove('recording'); recordTimerDisplay.style.display = 'none';
+                document.getElementById('bg-music').play(); document.getElementById('music-btn').classList.add('rotating');
             }
         }
 
         function createAudioElement() {
-            if(secondsRecorded < 2) {
-                alert("⚠️ 录音太短啦，多说几句心里话嘛！");
-                recordBtn.innerText = "🎙️ 点击开始录制心声";
-                return;
-            }
-
-            const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
-            const audioUrl = URL.createObjectURL(audioBlob);
-            
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'audio-item';
-            
-            const audioEl = document.createElement('audio');
-            audioEl.controls = true;
-            audioEl.src = audioUrl;
-            
-            const saveBtn = document.createElement('a');
-            saveBtn.className = 'save-audio-btn';
-            saveBtn.href = audioUrl;
-            saveBtn.download = '给PL的心声.mp3';
-            saveBtn.innerText = "📥 保存录音发给PL";
-
-            itemDiv.appendChild(audioEl);
-            itemDiv.appendChild(saveBtn);
-            audioList.innerHTML = ''; 
-            audioList.appendChild(itemDiv);
-
-            hasSpinChance = true;
-            recordBtn.innerText = "✅ 收到表白！(可播放确认)";
-            recordBtn.style.background = "#8fcb9b";
-            recordHint.innerText = "已解锁 1 次抽奖机会，快去下面试试手气吧！";
-            document.getElementById('record-section').classList.add('active');
-            
-            spinBtn.classList.add('ready');
-            spinBtn.innerText = "🎡 开始抽奖！";
-            spinCounter.innerText = `🎁 剩余抽奖：1 次 (已用 ${totalSpinsUsed}/${MAX_SPINS} 次)`;
+            if(secondsRecorded < 2) { alert("⚠️ 录音太短啦，多说几句心里话嘛！"); recordBtn.innerText = "🎙️ 点击开始录制心声"; return; }
+            const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' }); const audioUrl = URL.createObjectURL(audioBlob);
+            const itemDiv = document.createElement('div'); itemDiv.className = 'audio-item';
+            const audioEl = document.createElement('audio'); audioEl.controls = true; audioEl.src = audioUrl;
+            const saveBtn = document.createElement('a'); saveBtn.className = 'save-audio-btn'; saveBtn.href = audioUrl; saveBtn.download = '给PL的心声.mp3'; saveBtn.innerText = "📥 保存录音发给PL";
+            itemDiv.appendChild(audioEl); itemDiv.appendChild(saveBtn); audioList.innerHTML = ''; audioList.appendChild(itemDiv);
+            hasSpinChance = true; recordBtn.innerText = "✅ 收到表白！(可播放确认)"; recordBtn.style.background = "#8fcb9b"; recordHint.innerText = "已解锁 1 次抽奖机会，快去下面试试手气吧！"; document.getElementById('record-section').classList.add('active');
+            spinBtn.classList.add('ready'); spinBtn.innerText = "🎡 开始抽奖！"; spinCounter.innerText = `🎁 剩余抽奖：1 次 (已用 ${totalSpinsUsed}/${MAX_SPINS} 次)`;
         }
 
-        // ================= 8等分转盘抽奖逻辑 =================
-        let currentRotation = 0;
-        let isSpinning = false;
+        let currentRotation = 0; let isSpinning = false;
         function spinWheel() {
             if (isSpinning || !hasSpinChance || totalSpinsUsed >= MAX_SPINS) return;
-            
-            isSpinning = true;
-            hasSpinChance = false; 
-            totalSpinsUsed++;
-            
-            spinBtn.classList.remove('ready');
-            spinBtn.innerText = "抽奖中...";
-            spinCounter.innerText = `🎁 剩余抽奖：0 次 (已用 ${totalSpinsUsed}/${MAX_SPINS} 次)`;
-
+            isSpinning = true; hasSpinChance = false; totalSpinsUsed++;
+            spinBtn.classList.remove('ready'); spinBtn.innerText = "抽奖中..."; spinCounter.innerText = `🎁 剩余抽奖：0 次 (已用 ${totalSpinsUsed}/${MAX_SPINS} 次)`;
             const wheel = document.getElementById('lucky-wheel');
-            const extraSpins = Math.floor(Math.random() * 5) + 5; 
-            const randomAngle = Math.floor(Math.random() * 360); 
-            currentRotation += (extraSpins * 360) + randomAngle;
-            wheel.style.transform = `rotate(${currentRotation}deg)`;
-
+            const extraSpins = Math.floor(Math.random() * 5) + 5; const randomAngle = Math.floor(Math.random() * 360); 
+            currentRotation += (extraSpins * 360) + randomAngle; wheel.style.transform = `rotate(${currentRotation}deg)`;
             setTimeout(() => {
-                isSpinning = false;
-                const actualAngle = currentRotation % 360;
-                const pointerAngle = (360 - actualAngle) % 360;
-                const index = Math.floor(pointerAngle / 45);
-                
-                const prizes = [
-                    "转账520", "豪华大餐", "零食大礼包", "抱抱亲亲", 
-                    "专属哄睡", "免生气金牌", "专属陪伴", "帮你按摩"
-                ];
-                
+                isSpinning = false; const actualAngle = currentRotation % 360; const pointerAngle = (360 - actualAngle) % 360; const index = Math.floor(pointerAngle / 45);
+                const prizes = ["转账520", "豪华大餐", "零食大礼包", "抱抱亲亲", "专属哄睡", "免生气金牌", "专属陪伴", "帮你按摩"];
                 alert("🎉 恭喜宝宝抽中特权：【" + prizes[index] + "】！\n截个图，记得找PL兑换哦！");
-
                 document.getElementById('record-section').classList.remove('active');
-                if (totalSpinsUsed < MAX_SPINS) {
-                    recordBtn.innerText = "🎙️ 点击再次录音解锁";
-                    recordBtn.style.background = "#ff6b6b";
-                    recordHint.innerText = "机会用完啦，再录一段心声解锁下一次机会吧！";
-                    spinBtn.innerText = "等待录音解锁...";
-                } else {
-                    recordBtn.innerText = "💖 抽奖完毕 💖";
-                    recordBtn.style.background = "#ccc";
-                    recordBtn.style.pointerEvents = "none";
-                    recordHint.innerText = "三次特权都已经抽完啦，我会好好兑现的！\n（别忘了把录音保存发给我哦）";
-                    spinBtn.innerText = "特权已全部解锁";
-                }
-
+                if (totalSpinsUsed < MAX_SPINS) { recordBtn.innerText = "🎙️ 点击再次录音解锁"; recordBtn.style.background = "#ff6b6b"; recordHint.innerText = "机会用完啦，再录一段心声解锁下一次机会吧！"; spinBtn.innerText = "等待录音解锁..."; } 
+                else { recordBtn.innerText = "💖 抽奖完毕 💖"; recordBtn.style.background = "#ccc"; recordBtn.style.pointerEvents = "none"; recordHint.innerText = "三次特权都已经抽完啦，我会好好兑现的！\n（别忘了把录音保存发给我哦）"; spinBtn.innerText = "特权已全部解锁"; }
             }, 5000); 
         }
 
-        // ================= 密码验证 =================
+        // ================= 拼图游戏核心逻辑 =================
+        let puzzleTiles = [];
+        let emptyX = 2, emptyY = 2; 
+
+        function initPuzzle() {
+            const pCont = document.getElementById('puzzle-container');
+            pCont.innerHTML = '';
+            puzzleTiles = [];
+            for(let i = 0; i < 9; i++) {
+                let tile = document.createElement('div');
+                tile.className = 'puzzle-tile';
+                if(i === 8) {
+                    tile.classList.add('empty');
+                } else {
+                    tile.style.backgroundImage = "url('1.jpg')";
+                    let bgX = -(i % 3) * 100;
+                    let bgY = -Math.floor(i / 3) * 100;
+                    tile.style.backgroundPosition = `${bgX}px ${bgY}px`;
+                    tile.onclick = () => moveTile(i);
+                }
+                tile.dataset.targetIndex = i;
+                tile.dataset.currentIndex = i;
+                pCont.appendChild(tile);
+                puzzleTiles.push(tile);
+            }
+            renderPuzzle();
+            shufflePuzzle();
+        }
+
+        function renderPuzzle() {
+            puzzleTiles.forEach((tile) => {
+                let idx = parseInt(tile.dataset.currentIndex);
+                let x = idx % 3;
+                let y = Math.floor(idx / 3);
+                tile.style.left = (x * 100) + 'px';
+                tile.style.top = (y * 100) + 'px';
+                if(tile.classList.contains('empty')) {
+                    emptyX = x; emptyY = y;
+                }
+            });
+        }
+
+        function moveTile(origIndex, isShuffle = false) {
+            let tile = puzzleTiles[origIndex];
+            let idx = parseInt(tile.dataset.currentIndex);
+            let tx = idx % 3; let ty = Math.floor(idx / 3);
+            
+            if(Math.abs(tx - emptyX) + Math.abs(ty - emptyY) === 1) {
+                let emptyTile = puzzleTiles[8];
+                let emptyIdx = parseInt(emptyTile.dataset.currentIndex);
+                
+                emptyTile.dataset.currentIndex = idx;
+                tile.dataset.currentIndex = emptyIdx;
+                
+                emptyX = tx; emptyY = ty;
+                
+                if(!isShuffle) {
+                    renderPuzzle();
+                    checkPuzzleWin();
+                }
+            }
+        }
+
+        function shufflePuzzle() {
+            for(let i = 0; i < 150; i++) {
+                let validMoves = [];
+                puzzleTiles.forEach((t, i) => {
+                    if(i === 8) return;
+                    let idx = parseInt(t.dataset.currentIndex);
+                    let x = idx % 3; let y = Math.floor(idx / 3);
+                    if(Math.abs(x - emptyX) + Math.abs(y - emptyY) === 1) validMoves.push(i);
+                });
+                let randomMove = validMoves[Math.floor(Math.random() * validMoves.length)];
+                moveTile(randomMove, true);
+            }
+            renderPuzzle();
+        }
+
+        function checkPuzzleWin() {
+            let isWin = puzzleTiles.every(t => t.dataset.currentIndex === t.dataset.targetIndex);
+            if(isWin) {
+                setTimeout(() => {
+                    alert("🧩 太聪明了宝宝！拼图完成！\n马上为你播放绝密幕后花絮！");
+                    showSecretVideo();
+                }, 300);
+            }
+        }
+
+        function skipPuzzle() {
+            if(confirm("真的要放弃拼图吗？(建议自己拼出来更有成就感哦！) \n点击确定直接看彩蛋。")){
+                showSecretVideo();
+            }
+        }
+
+        function showSecretVideo() {
+            document.getElementById('puzzle-game-area').style.display = 'none';
+            document.getElementById('puzzle-hint').style.display = 'none';
+            const secretVideoContainer = document.getElementById('secret-video-container');
+            secretVideoContainer.style.display = 'block';
+            
+            document.getElementById('bg-music').pause();
+            document.getElementById('music-btn').classList.remove('rotating');
+            document.getElementById('secret-video').play();
+        }
+
+        // ================= PL专属生日彩蛋特效 =================
+        function createConfetti() {
+            const colors = ['#ffeb3b', '#e91e63', '#00bcd4', '#4caf50', '#ff9800'];
+            const screen = document.getElementById('pl-birthday-screen');
+            for(let i=0; i<80; i++){
+                const conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                conf.style.animationDelay = (Math.random() * 2) + 's';
+                if(Math.random() > 0.5) conf.style.borderRadius = '50%';
+                screen.appendChild(conf);
+            }
+        }
+
+        function backToLogin() {
+            const plScreen = document.getElementById('pl-birthday-screen');
+            plScreen.style.opacity = '0';
+            setTimeout(() => {
+                plScreen.style.display = 'none';
+                document.querySelectorAll('.confetti').forEach(e => e.remove());
+                document.getElementById('password-input').value = '';
+                const loginScreen = document.getElementById('login-screen');
+                loginScreen.style.display = 'flex';
+                void loginScreen.offsetWidth;
+                loginScreen.style.opacity = '1';
+                
+                loginParticleInterval = setInterval(() => {
+                    const el = document.createElement('div'); el.className = 'login-particle'; el.innerText = pEmojis[Math.floor(Math.random() * pEmojis.length)];
+                    el.style.left = Math.random() * 100 + 'vw'; el.style.fontSize = (Math.random() * 15 + 15) + 'px'; el.style.animationDuration = (Math.random() * 4 + 5) + 's'; 
+                    pContainer.appendChild(el); setTimeout(() => el.remove(), 10000);
+                }, 800);
+            }, 800);
+        }
+
+        // ================= 密码验证 (包含 0429 彩蛋) =================
         const glassBox = document.getElementById('glass-box');
         document.getElementById('submit-btn').onclick = function() {
-            // 支持去除空格，防止手机输入自带空格导致报错
             const pwd = document.getElementById('password-input').value.trim();
+            
             if(pwd === '0428'){
-                // 1. 突破手机端自动播放限制，立即播放音乐
+                // ================= PP宝宝主流程 =================
                 const music = document.getElementById('bg-music');
                 const mBtn = document.getElementById('music-btn');
-                
                 let playPromise = music.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => { console.log("自动播放被拦截，需要用户点击播放按钮", error); });
-                }
-                
-                mBtn.style.display = 'flex'; 
-                mBtn.classList.add('rotating'); 
+                if (playPromise !== undefined) { playPromise.catch(error => { console.log("需手动播放", error); }); }
+                mBtn.style.display = 'flex'; mBtn.classList.add('rotating'); 
 
-                // 2. 页面跳转
-                clearInterval(loginParticleInterval); 
-                document.getElementById('login-screen').style.opacity = '0';
-                
+                clearInterval(loginParticleInterval); document.getElementById('login-screen').style.opacity = '0';
                 setTimeout(() => {
                     document.getElementById('login-screen').style.display = 'none';
                     const mainContent = document.getElementById('main-content');
-                    mainContent.style.display = 'block';
-                    void mainContent.offsetWidth; // 强制重绘，保证平滑过渡
-                    mainContent.style.opacity = '1';
-                    
+                    mainContent.style.display = 'block'; void mainContent.offsetWidth; mainContent.style.opacity = '1';
                     setTimeout(startTypewriter, 500);
 
                     let isPlaying = true;
@@ -623,14 +701,42 @@
                         isPlaying = !isPlaying;
                     };
                 }, 800);
+                
+            } else if (pwd === '0429') {
+                // ================= PL专属生日彩蛋 =================
+                clearInterval(loginParticleInterval); 
+                document.getElementById('login-screen').style.opacity = '0';
+                
+                // 动态抽取5张照片叠放
+                const stack = document.getElementById('pl-photo-stack');
+                stack.innerHTML = '';
+                let picked = [];
+                while(picked.length < 5) {
+                    let r = Math.floor(Math.random() * 107) + 1; // 随机抽取1~107
+                    if(!picked.includes(r)) picked.push(r);
+                }
+                picked.forEach((num, i) => {
+                    let img = document.createElement('img');
+                    img.src = num + '.jpg';
+                    img.className = 'pl-pic-' + (i+1);
+                    stack.appendChild(img);
+                });
+
+                setTimeout(() => {
+                    document.getElementById('login-screen').style.display = 'none';
+                    const plScreen = document.getElementById('pl-birthday-screen');
+                    plScreen.style.display = 'flex';
+                    void plScreen.offsetWidth; 
+                    plScreen.style.opacity = '1';
+                    createConfetti();
+                }, 800);
             } else {
-                glassBox.classList.add('shake'); 
-                document.getElementById('error-msg').innerText = "密码不对哦，再仔细想想宝宝！🐾";
+                // 密码错误
+                glassBox.classList.add('shake'); document.getElementById('error-msg').innerText = "密码不对哦，再仔细想想宝宝！🐾";
                 setTimeout(() => glassBox.classList.remove('shake'), 400);
             }
         };
 
-        // 监听手机键盘的回车键（Go/前往）
         document.getElementById('password-input').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') { document.getElementById('submit-btn').click(); }
         });
