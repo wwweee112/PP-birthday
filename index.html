@@ -23,13 +23,13 @@
             cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='32' height='32' viewport='0 0 32 32' style='fill:black;font-size:24px;'><text y='50%'>🐾</text></svg>") 16 16, pointer !important;
         }
 
-        /* 鼠标动态特效 */
+        /* ================= 鼠标动态特效 ================= */
         .click-effect { position: fixed; pointer-events: none; user-select: none; z-index: 99999; font-size: 24px; transform: translate(-50%, -50%); animation: floatUp 0.8s ease-out forwards; }
         @keyframes floatUp { 0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; } 50% { transform: translate(-50%, -80px) scale(1.2); opacity: 0.8; } 100% { transform: translate(-50%, -120px) scale(1.5); opacity: 0; } }
         .mouse-trail { position: fixed; pointer-events: none; user-select: none; z-index: 99998; width: 8px; height: 8px; border-radius: 50%; transform: translate(-50%, -50%); animation: trailFade 0.6s linear forwards; }
         @keyframes trailFade { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; } 100% { transform: translate(-50%, -50%) scale(0); opacity: 0; } }
 
-        /* 登录页面 */
+        /* ================= 登录页面 ================= */
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('2.jpg') no-repeat center center; background-size: cover; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 1s ease-out; color: white; overflow: hidden; }
         .login-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: 1; }
         .login-particle { position: absolute; bottom: -50px; z-index: 2; pointer-events: none; user-select: none; animation: particleFloat linear forwards; opacity: 0.8; }
@@ -46,7 +46,7 @@
         .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
         @keyframes shake { 10%, 90% { transform: translate3d(-1px,0,0); } 20%, 80% { transform: translate3d(2px,0,0); } 30%, 50%, 70% { transform: translate3d(-4px,0,0); } }
 
-        /* PL专属生日彩蛋页面 (22岁版 + 照片叠放) */
+        /* ================= PL专属生日彩蛋页面 (22岁版 + 照片叠放) ================= */
         #pl-birthday-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; opacity: 0; transition: opacity 1s ease-in; color: white; overflow: hidden; }
         .pl-glass-box { position: relative; z-index: 10; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 40px 30px 30px; text-align: center; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); width: 85%; max-width: 450px; transform: translateZ(0); }
         .confetti { position: absolute; width: 10px; height: 10px; z-index: 10001; animation: fall linear forwards; will-change: transform; }
@@ -61,9 +61,8 @@
         .pl-pic-5 { transform: translateX(70px) rotate(22deg); z-index: 5; }
         .pl-photo-stack img:hover { transform: translateY(-15px) scale(1.2) rotate(0deg) !important; z-index: 10 !important; box-shadow: 0 10px 25px rgba(0,0,0,0.6); }
 
-        /* 主页面与动态背景 */
+        /* ================= 主页面与动态背景 ================= */
         #main-content { display: none; opacity: 0; transition: opacity 1s ease-in; min-height: 100vh; padding-bottom: 50px; position: relative; }
-        /* 针对背景大图也开启硬件加速 */
         #main-content::before { content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: url('108.jpg') no-repeat center center; background-size: cover; z-index: -2; transform: translateZ(0); will-change: transform; }
         #main-content::after { content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(247, 255, 247, 0.6); z-index: -1; transform: translateZ(0); }
 
@@ -82,12 +81,11 @@
         .cursor { display: inline-block; width: 2px; height: 1.2em; background-color: var(--primary-color); vertical-align: middle; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* 瀑布流极速优化版 */
+        /* 瀑布流 */
         .photo-gallery { width: 95%; max-width: 1200px; margin: 20px auto; padding: 0; column-count: 4; column-gap: 15px; position: relative; z-index: 10;}
         @media (max-width: 1024px) { .photo-gallery { column-count: 3; } }
         @media (max-width: 768px) { .photo-gallery { column-count: 2; column-gap: 10px; } }
         
-        /* 增加 transform: translateZ(0) 和 will-change 启用 GPU 加速渲染，防止滚动卡死 */
         .photo-card { background: white; padding: 8px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); break-inside: avoid; margin-bottom: 15px; display: inline-block; width: 100%; box-sizing: border-box; opacity: 0; transform: translateY(40px) translateZ(0); transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s; position: relative; will-change: transform, opacity; }
         .photo-card.reveal { opacity: 1; transform: translateY(0) translateZ(0); }
         .photo-card:hover { transform: translateY(-5px) scale(1.02) translateZ(0); box-shadow: 0 12px 25px rgba(0,0,0,0.15); z-index: 2; }
@@ -282,7 +280,7 @@
                             <div class="wheel-pointer">▼</div>
                             <div class="wheel-center-dot"></div>
                             <div class="wheel" id="lucky-wheel">
-                                <div class="wheel-text" style="transform: rotate(22.5deg) translateY(-100px);">满足一<br>个愿望</div>
+                                <div class="wheel-text" style="transform: rotate(22.5deg) translateY(-100px);">转账<br>520</div>
                                 <div class="wheel-text" style="transform: rotate(67.5deg) translateY(-100px);">豪华<br>大餐</div>
                                 <div class="wheel-text" style="transform: rotate(112.5deg) translateY(-100px) rotate(180deg);">零食<br>大礼包</div>
                                 <div class="wheel-text" style="transform: rotate(157.5deg) translateY(-100px) rotate(180deg);">抱抱<br>亲亲</div>
@@ -408,8 +406,8 @@
 
         for(let i=1; i<=107; i++){
             const card = document.createElement('div'); card.className = 'photo-card'; let cap = captions[i] || '美好瞬间 ✨';
-            /* 【重要修复】：加入 decoding="async" 防止加载图片卡死 */
-            card.innerHTML = `<img src="${i}.jpg" loading="lazy" decoding="async" alt="photo"><p>${cap}</p>`;
+            /* 【重要修复】：移除了 Safari 会卡空白的懒加载属性 */
+            card.innerHTML = `<img src="${i}.jpg" alt="photo"><p>${cap}</p>`;
             card.onclick = function(e) { e.stopPropagation(); lbImg.src = `${i}.jpg`; lbText.innerText = cap; lightbox.style.display = 'flex'; setTimeout(() => lightbox.style.opacity = '1', 50); };
             wall.appendChild(card);
         }
@@ -451,6 +449,8 @@
                     const letter = document.getElementById('letter-box'); letter.style.display = 'block'; setTimeout(() => letter.style.opacity = '1', 50);
                     const paras = document.querySelectorAll('.fade-in-para');
                     paras.forEach((p, index) => { setTimeout(() => p.classList.add('visible'), index * 1000); });
+                    
+                    // 初始化拼图游戏
                     initPuzzle();
                 }, 1800);
             }
@@ -589,6 +589,7 @@
             setTimeout(() => {
                 plScreen.style.display = 'none'; document.querySelectorAll('.confetti').forEach(e => e.remove()); document.getElementById('password-input').value = '';
                 const loginScreen = document.getElementById('login-screen'); loginScreen.style.display = 'flex'; void loginScreen.offsetWidth; loginScreen.style.opacity = '1';
+                
                 loginParticleInterval = setInterval(() => {
                     const el = document.createElement('div'); el.className = 'login-particle'; el.innerText = pEmojis[Math.floor(Math.random() * pEmojis.length)];
                     el.style.left = Math.random() * 100 + 'vw'; el.style.fontSize = (Math.random() * 15 + 15) + 'px'; el.style.animationDuration = (Math.random() * 4 + 5) + 's'; 
