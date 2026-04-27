@@ -35,10 +35,10 @@
         .login-particle { position: absolute; bottom: -50px; z-index: 2; pointer-events: none; user-select: none; animation: particleFloat linear forwards; opacity: 0.8; }
         @keyframes particleFloat { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 10% { opacity: 0.9; } 100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
 
-        .glass-box { position: relative; z-index: 10; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; padding: 40px 20px; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); width: 85%; max-width: 400px; transform: translateZ(0); }
+        .glass-box { position: relative; z-index: 10; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; padding: 40px 20px; text-align: center; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); width: 85%; max-width: 400px; }
         .mysterious-title { font-size: 1.8rem; margin-bottom: 20px; letter-spacing: 2px; color: #fff; text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); animation: pulse-glow 3s infinite alternate; }
         @keyframes pulse-glow { 0% { transform: scale(1); text-shadow: 0 0 10px rgba(143, 203, 155, 0.5); } 100% { transform: scale(1.05); text-shadow: 0 0 25px rgba(143, 203, 155, 1); } }
-        .login-photo-container { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; margin: 0 auto 20px auto; border: 3px solid rgba(255, 255, 255, 0.8); box-shadow: 0 0 20px rgba(143, 203, 155, 0.6); transform: translateZ(0); }
+        .login-photo-container { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; margin: 0 auto 20px auto; border: 3px solid rgba(255, 255, 255, 0.8); box-shadow: 0 0 20px rgba(143, 203, 155, 0.6); }
         .login-photo-container img { width: 100%; height: 100%; object-fit: cover; }
         .question-text { font-size: 1.1rem; margin-bottom: 15px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .password-input { width: 140px; padding: 12px; font-size: 1.2rem; text-align: center; border: 2px solid rgba(143, 203, 155, 0.6); border-radius: 12px; background: rgba(255,255,255,0.85); outline: none; letter-spacing: 3px; font-weight: bold; color: var(--text-color); -webkit-appearance: none; }
@@ -46,14 +46,14 @@
         .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
         @keyframes shake { 10%, 90% { transform: translate3d(-1px,0,0); } 20%, 80% { transform: translate3d(2px,0,0); } 30%, 50%, 70% { transform: translate3d(-4px,0,0); } }
 
-        /* ================= PL专属生日彩蛋页面 (22岁版 + 照片叠放) ================= */
+        /* ================= PL专属生日彩蛋页面 ================= */
         #pl-birthday-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; opacity: 0; transition: opacity 1s ease-in; color: white; overflow: hidden; }
-        .pl-glass-box { position: relative; z-index: 10; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 40px 30px 30px; text-align: center; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); width: 85%; max-width: 450px; transform: translateZ(0); }
-        .confetti { position: absolute; width: 10px; height: 10px; z-index: 10001; animation: fall linear forwards; will-change: transform; }
+        .pl-glass-box { position: relative; z-index: 10; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; padding: 40px 30px 30px; text-align: center; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); width: 85%; max-width: 450px; }
+        .confetti { position: absolute; width: 10px; height: 10px; z-index: 10001; animation: fall linear forwards; }
         @keyframes fall { 0% { transform: translateY(-5vh) rotate(0deg); opacity: 1;} 100% { transform: translateY(105vh) rotate(720deg); opacity: 0;} }
 
         .pl-photo-stack { display: flex; justify-content: center; align-items: center; margin: 10px auto 25px; position: relative; height: 130px; width: 100%; }
-        .pl-photo-stack img { position: absolute; width: 100px; height: 100px; object-fit: cover; border: 3px solid white; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: transform; }
+        .pl-photo-stack img { position: absolute; width: 100px; height: 100px; object-fit: cover; border: 3px solid white; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         .pl-pic-1 { transform: translateX(-70px) rotate(-15deg); z-index: 1; }
         .pl-pic-2 { transform: translateX(-35px) rotate(-5deg); z-index: 2; }
         .pl-pic-3 { transform: translateX(0px) rotate(3deg); z-index: 3; }
@@ -63,8 +63,8 @@
 
         /* ================= 主页面与动态背景 ================= */
         #main-content { display: none; opacity: 0; transition: opacity 1s ease-in; min-height: 100vh; padding-bottom: 50px; position: relative; }
-        #main-content::before { content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: url('108.jpg') no-repeat center center; background-size: cover; z-index: -2; transform: translateZ(0); will-change: transform; }
-        #main-content::after { content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(247, 255, 247, 0.6); z-index: -1; transform: translateZ(0); }
+        #main-content::before { content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: url('108.jpg') no-repeat center center; background-size: cover; z-index: -2; }
+        #main-content::after { content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(247, 255, 247, 0.6); z-index: -1; }
 
         .header { text-align: center; padding: 40px 15px 20px; position: relative; z-index: 10; }
         .header h1 { font-size: 2rem; color: var(--primary-color); margin-bottom: 10px; display: flex; align-items: center; justify-content: center;}
@@ -76,61 +76,72 @@
         .timer-num { font-size: 1.2rem; font-weight: bold; color: var(--primary-color); }
         .timer-text { font-size: 0.8rem; color: #666; }
 
-        .wishes { width: 90%; max-width: 600px; margin: 20px auto 30px; background: rgba(255,255,255,0.95); padding: 20px 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); line-height: 1.8; text-align: justify; position: relative; border-left: 5px solid var(--primary-color); box-sizing: border-box; z-index: 10; min-height: 150px; transform: translateZ(0);}
+        .wishes { width: 90%; max-width: 600px; margin: 20px auto 30px; background: rgba(255,255,255,0.95); padding: 20px 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); line-height: 1.8; text-align: justify; position: relative; border-left: 5px solid var(--primary-color); box-sizing: border-box; z-index: 10; min-height: 150px;}
         .wishes p { margin-bottom: 10px; font-size: 1.05rem; }
         .cursor { display: inline-block; width: 2px; height: 1.2em; background-color: var(--primary-color); vertical-align: middle; animation: blink 1s step-end infinite; }
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* 瀑布流 */
+        /* ================= 照片墙瀑布流 (加入Safari防吞图补丁) ================= */
         .photo-gallery { width: 95%; max-width: 1200px; margin: 20px auto; padding: 0; column-count: 4; column-gap: 15px; position: relative; z-index: 10;}
         @media (max-width: 1024px) { .photo-gallery { column-count: 3; } }
         @media (max-width: 768px) { .photo-gallery { column-count: 2; column-gap: 10px; } }
         
-        .photo-card { background: white; padding: 8px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); break-inside: avoid; margin-bottom: 15px; display: inline-block; width: 100%; box-sizing: border-box; opacity: 0; transform: translateY(40px) translateZ(0); transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s; position: relative; will-change: transform, opacity; }
-        .photo-card.reveal { opacity: 1; transform: translateY(0) translateZ(0); }
-        .photo-card:hover { transform: translateY(-5px) scale(1.02) translateZ(0); box-shadow: 0 12px 25px rgba(0,0,0,0.15); z-index: 2; }
-        .photo-card img { width: 100%; border-radius: 6px; margin-bottom: 8px; display: block; object-fit: cover; }
+        .photo-card { 
+            background: white; padding: 8px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+            margin-bottom: 15px; display: inline-block; width: 100%; box-sizing: border-box; 
+            opacity: 0; transform: translateY(40px); transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s; position: relative;
+            
+            /* 【核心修复】苹果 Safari 瀑布流防切割、防隐身代码 */
+            -webkit-column-break-inside: avoid;
+            page-break-inside: avoid;
+            break-inside: avoid;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        .photo-card.reveal { opacity: 1; transform: translateY(0); }
+        .photo-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 12px 25px rgba(0,0,0,0.15); z-index: 2; }
+        .photo-card img { width: 100%; border-radius: 6px; margin-bottom: 8px; display: block; }
         .photo-card p { margin: 5px 0; color: var(--text-color); font-weight: bold; font-size: 0.8rem; text-align: center; }
 
         /* 照片灯箱 */
-        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 99999; justify-content: center; align-items: center; flex-direction: column; opacity: 0; transition: opacity 0.3s; transform: translateZ(0); }
+        #lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 99999; justify-content: center; align-items: center; flex-direction: column; opacity: 0; transition: opacity 0.3s; }
         #lightbox img { max-width: 90%; max-height: 75vh; border-radius: 15px; box-shadow: 0 0 30px rgba(255,255,255,0.2); }
         #lightbox p { color: white; font-size: 1.2rem; margin-top: 20px; font-weight: bold; text-align: center; padding: 0 20px;}
         #lightbox .close-btn { position: absolute; top: 30px; right: 30px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; }
 
         /* 互动区 */
-        #mystery-section { width: 90%; max-width: 800px; margin: 50px auto; background: rgba(255,255,255,0.95); padding: 30px 20px; border-radius: 20px; text-align: center; border: 2px dashed var(--primary-color); position: relative; min-height: 250px; box-sizing: border-box; z-index: 10; overflow: hidden; transform: translateZ(0);}
+        #mystery-section { width: 90%; max-width: 800px; margin: 50px auto; background: rgba(255,255,255,0.95); padding: 30px 20px; border-radius: 20px; text-align: center; border: 2px dashed var(--primary-color); position: relative; min-height: 250px; box-sizing: border-box; z-index: 10; overflow: hidden;}
         #mystery-section h2 { color: var(--primary-color); margin-bottom: 20px; font-size: 1.5rem;}
         .choice-btn-group { display: flex; justify-content: center; gap: 20px; margin-top: 20px; position: relative; }
         .choice-btn { padding: 10px 30px; font-size: 1.1rem; border-radius: 50px; cursor: pointer; border: 2px solid var(--primary-color); z-index: 10; -webkit-tap-highlight-color: transparent; }
         .btn-yes { background: var(--primary-color); color: white; transition: 0.3s; }
-        .btn-no { background: white; color: var(--primary-color); transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); will-change: transform;}
+        .btn-no { background: white; color: var(--primary-color); transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         #persist-msg { color: #ff6b6b; margin-top: 20px; font-weight: bold; min-height: 24px; font-size: 0.9rem;}
 
-        #envelope-scene { display: none; margin: 40px auto; perspective: 1000px; width: 280px; height: 200px; position: relative; transform: translateZ(0);}
-        .envelope-wrapper { width: 100%; height: 100%; background: var(--primary-color); position: relative; margin: 0 auto; box-shadow: 0 15px 30px rgba(0,0,0,0.15); transition: 0.5s; border-radius: 5px; transform: translateZ(0); will-change: transform;}
-        .envelope-wrapper:hover { transform: scale(1.05) translateZ(0); }
-        .env-flap { position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-top: 110px solid #7fc18c; transform-origin: top; transition: transform 0.8s ease-in-out; z-index: 3; will-change: transform;}
+        #envelope-scene { display: none; margin: 40px auto; perspective: 1000px; width: 280px; height: 200px; position: relative; }
+        .envelope-wrapper { width: 100%; height: 100%; background: var(--primary-color); position: relative; margin: 0 auto; box-shadow: 0 15px 30px rgba(0,0,0,0.15); transition: 0.5s; border-radius: 5px; }
+        .envelope-wrapper:hover { transform: scale(1.05); }
+        .env-flap { position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-top: 110px solid #7fc18c; transform-origin: top; transition: transform 0.8s ease-in-out; z-index: 3; }
         .env-body { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-left: 140px solid #9ad6a5; border-right: 140px solid #9ad6a5; border-bottom: 100px solid #8fcb9b; z-index: 2; }
-        .env-paper { position: absolute; bottom: 10px; left: 15px; right: 15px; height: 170px; background: white; z-index: 1; transition: transform 1s ease-in-out 0.8s; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; border-radius: 5px; will-change: transform;}
+        .env-paper { position: absolute; bottom: 10px; left: 15px; right: 15px; height: 170px; background: white; z-index: 1; transition: transform 1s ease-in-out 0.8s; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center; border-radius: 5px;}
         .env-paper span { color: var(--primary-color); font-weight: bold; font-size: 2rem;}
-        .envelope-wrapper.open .env-flap { transform: rotateX(180deg) translateZ(0); z-index: 0; }
-        .envelope-wrapper.open .env-paper { transform: translateY(-130px) translateZ(0); }
+        .envelope-wrapper.open .env-flap { transform: rotateX(180deg); z-index: 0; }
+        .envelope-wrapper.open .env-paper { transform: translateY(-130px); }
         .envelope-hint { margin-top: 20px; font-weight: bold; color: var(--primary-color); animation: pulse-glow 2s infinite alternate;}
 
-        #letter-box { display: none; text-align: left; padding-top: 20px; margin-top: 20px; opacity: 0; transition: 1s; transform: translateZ(0);}
+        #letter-box { display: none; text-align: left; padding-top: 20px; margin-top: 20px; opacity: 0; transition: 1s;}
         .letter-content { line-height: 1.8; font-size: 1rem; color: #555; text-align: justify; }
         .letter-content strong { color: var(--primary-color); }
-        .fade-in-para { opacity: 0; transform: translateY(20px) translateZ(0); transition: opacity 0.8s ease, transform 0.8s ease; will-change: transform, opacity;}
-        .fade-in-para.visible { opacity: 1; transform: translateY(0) translateZ(0); }
+        .fade-in-para { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .fade-in-para.visible { opacity: 1; transform: translateY(0); }
 
         /* 真实录音 & 8项转盘 */
-        .record-section { margin: 30px auto; padding: 25px 15px; background: #fff; border-radius: 20px; border: 2px dashed #ccc; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transform: translateZ(0);}
+        .record-section { margin: 30px auto; padding: 25px 15px; background: #fff; border-radius: 20px; border: 2px dashed #ccc; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .record-section.active { border-color: var(--primary-color); background: #f0fdf4; }
         
-        #record-btn { background: #ff6b6b; color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 50px; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(255,107,107,0.4); transition: 0.2s; user-select: none; -webkit-user-select: none; margin: 10px 0; transform: translateZ(0);}
-        #record-btn.recording { transform: scale(0.95) translateZ(0); background: #ff4757; animation: heartbeat 1.5s infinite; will-change: transform;}
-        @keyframes heartbeat { 0% { transform: scale(0.95) translateZ(0); box-shadow: 0 0 10px #ff4757;} 50% { transform: scale(1.05) translateZ(0); box-shadow: 0 0 30px #ff4757;} 100% { transform: scale(0.95) translateZ(0); box-shadow: 0 0 10px #ff4757;} }
+        #record-btn { background: #ff6b6b; color: white; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 50px; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 5px 15px rgba(255,107,107,0.4); transition: 0.2s; user-select: none; -webkit-user-select: none; margin: 10px 0; }
+        #record-btn.recording { transform: scale(0.95); background: #ff4757; animation: heartbeat 1.5s infinite; }
+        @keyframes heartbeat { 0% { transform: scale(0.95); box-shadow: 0 0 10px #ff4757;} 50% { transform: scale(1.05); box-shadow: 0 0 30px #ff4757;} 100% { transform: scale(0.95); box-shadow: 0 0 10px #ff4757;} }
         
         .record-timer { font-size: 1.5rem; font-weight: bold; color: #ff4757; margin-top: 10px; display: none; }
         #audio-list { margin-top: 15px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
@@ -138,26 +149,26 @@
         audio { width: 100%; height: 40px; outline: none; }
         .save-audio-btn { background: var(--primary-color); color: white; padding: 5px 15px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; font-weight: bold; border: none; }
 
-        .wheel-container { position: relative; width: 280px; height: 280px; margin: 30px auto 20px; transform: translateZ(0);}
+        .wheel-container { position: relative; width: 280px; height: 280px; margin: 30px auto 20px; }
         .wheel-pointer { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 45px; color: #ff4757; z-index: 10; text-shadow: 0 4px 8px rgba(0,0,0,0.3); }
         .wheel-center-dot { position: absolute; top: 50%; left: 50%; width: 40px; height: 40px; background: white; border: 4px solid var(--primary-color); border-radius: 50%; transform: translate(-50%, -50%); z-index: 5; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 6px solid white; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.15); background: conic-gradient( #b5e4c3 0 45deg, #f7fff7 45deg 90deg, #ffdac1 90deg 135deg, #e2f3e4 135deg 180deg, #ffb7b2 180deg 225deg, #9ad6a5 225deg 270deg, #ff9a9e 270deg 315deg, #ffffff 315deg 360deg ); transition: transform 5s cubic-bezier(0.25, 0.1, 0.15, 1); position: relative; overflow: hidden; will-change: transform;}
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 6px solid white; box-sizing: border-box; box-shadow: 0 10px 30px rgba(0,0,0,0.15); background: conic-gradient( #b5e4c3 0 45deg, #f7fff7 45deg 90deg, #ffdac1 90deg 135deg, #e2f3e4 135deg 180deg, #ffb7b2 180deg 225deg, #9ad6a5 225deg 270deg, #ff9a9e 270deg 315deg, #ffffff 315deg 360deg ); transition: transform 5s cubic-bezier(0.25, 0.1, 0.15, 1); position: relative; overflow: hidden; }
         .wheel-text { position: absolute; width: 80px; height: 60px; top: 50%; left: 50%; margin-top: -30px; margin-left: -40px; text-align: center; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; color: var(--text-color); line-height: 1.3; transform-origin: center center; }
         
-        #spin-btn { background: #ccc; pointer-events: none; transition: 0.3s; padding: 15px 40px; font-size: 1.2rem; transform: translateZ(0);}
+        #spin-btn { background: #ccc; pointer-events: none; transition: 0.3s; padding: 15px 40px; font-size: 1.2rem; }
         #spin-btn.ready { background: var(--primary-color); pointer-events: auto; box-shadow: 0 5px 15px rgba(143,203,155,0.5); animation: pulse-glow 1.5s infinite alternate; }
 
         /* 拼图游戏 */
-        #puzzle-container { position: relative; width: 300px; height: 300px; margin: 0 auto; background: #eee; border: 3px solid var(--primary-color); border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: translateZ(0);}
-        .puzzle-tile { position: absolute; width: 100px; height: 100px; background-image: url('1.jpg'); background-size: 300px 300px; transition: top 0.2s ease-in-out, left 0.2s ease-in-out; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.5); will-change: top, left;}
+        #puzzle-container { position: relative; width: 300px; height: 300px; margin: 0 auto; background: #eee; border: 3px solid var(--primary-color); border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .puzzle-tile { position: absolute; width: 100px; height: 100px; background-image: url('1.jpg'); background-size: 300px 300px; transition: top 0.2s ease-in-out, left 0.2s ease-in-out; box-sizing: border-box; border: 1px solid rgba(255,255,255,0.5); }
         .puzzle-tile.empty { background: none; border: none; cursor: default !important; }
 
         /* 黑胶唱片按钮 */
-        #music-btn { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: #222; color: var(--primary-color); border: 2px solid white; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 100; font-size: 18px; display: flex; justify-content: center; align-items: center; overflow: hidden; transform: translateZ(0);}
+        #music-btn { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; border-radius: 50%; background: #222; color: var(--primary-color); border: 2px solid white; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 100; font-size: 18px; display: flex; justify-content: center; align-items: center; overflow: hidden; }
         #music-btn::before { content: ""; position: absolute; width: 15px; height: 15px; background: var(--primary-color); border-radius: 50%; }
         #music-btn::after { content: "♪"; position: relative; z-index: 2; color: white; font-size: 14px;}
-        .rotating { animation: rotateRecord 4s linear infinite; will-change: transform;}
-        @keyframes rotateRecord { from { transform: rotate(0deg) translateZ(0); } to { transform: rotate(360deg) translateZ(0); } }
+        .rotating { animation: rotateRecord 4s linear infinite; }
+        @keyframes rotateRecord { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -259,7 +270,7 @@
                     
                     <div class="fade-in-para" style="margin-top: 40px; text-align: center; border-top: 1px dashed var(--primary-color); padding-top: 30px;">
                         <p style="font-weight: bold; color: var(--primary-color); font-size: 1.1rem; margin-bottom: 15px;">🎬 我们的故事，未完待续 🎬</p>
-                        <video controls playsinline webkit-playsinline preload="none" poster="1.jpg" style="width: 100%; max-width: 320px; aspect-ratio: 9/16; height: auto; object-fit: contain; background: #000; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: block; margin: 0 auto; outline: none; transform: translateZ(0);">
+                        <video controls playsinline webkit-playsinline preload="metadata" poster="1.jpg" style="width: 100%; max-width: 320px; aspect-ratio: 9/16; height: auto; object-fit: contain; background: #000; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: block; margin: 0 auto; outline: none;">
                             <source src="1.mp4" type="video/mp4">
                             您的浏览器不支持视频播放哦。
                         </video>
@@ -304,7 +315,7 @@
 
                         <div id="secret-video-container" style="display: none; margin-top: 20px;">
                             <p style="font-weight: bold; color: #ff6b6b; font-size: 1.2rem; margin-bottom: 15px;">🎬 绝密花絮：为你准备惊喜的日与夜 🎬</p>
-                            <video id="secret-video" controls playsinline webkit-playsinline preload="none" style="width: 100%; max-width: 320px; aspect-ratio: 9/16; height: auto; object-fit: contain; background: #000; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: block; margin: 0 auto; outline: none; transform: translateZ(0);">
+                            <video id="secret-video" controls playsinline webkit-playsinline preload="metadata" style="width: 100%; max-width: 320px; aspect-ratio: 9/16; height: auto; object-fit: contain; background: #000; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); display: block; margin: 0 auto; outline: none;">
                                 <source src="2.mp4" type="video/mp4">
                                 您的浏览器不支持视频播放哦。
                             </video>
@@ -406,7 +417,7 @@
 
         for(let i=1; i<=107; i++){
             const card = document.createElement('div'); card.className = 'photo-card'; let cap = captions[i] || '美好瞬间 ✨';
-            /* 【重要修复】：移除了 Safari 会卡空白的懒加载属性 */
+            /* 已经去除了所有的懒加载，强行让Safari一口气排好序 */
             card.innerHTML = `<img src="${i}.jpg" alt="photo"><p>${cap}</p>`;
             card.onclick = function(e) { e.stopPropagation(); lbImg.src = `${i}.jpg`; lbText.innerText = cap; lightbox.style.display = 'flex'; setTimeout(() => lightbox.style.opacity = '1', 50); };
             wall.appendChild(card);
